@@ -1,0 +1,141 @@
+import 'package:eventmobile/screens/Auth/login_screen.dart';
+import 'package:flutter/material.dart';
+
+Future<Object?> customSignInDialog(
+  BuildContext context,
+) {
+  return showGeneralDialog(
+    barrierDismissible: true,
+    barrierLabel: "Sign In",
+    context: context,
+    transitionDuration: const Duration(milliseconds: 400),
+    transitionBuilder: (_, animation, __, child) {
+      Tween<Offset> tween;
+      tween = Tween(begin: const Offset(0, -1), end: Offset.zero);
+      return SlideTransition(
+        position: tween.animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+        ),
+        child: child,
+      );
+    },
+    pageBuilder: (context, _, __) => Center(
+      child: Container(
+        height: 400,
+        width: 400,
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.94),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(
+              40,
+            ),
+          ),
+        ),
+        child: Center(
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/email.png",
+                      height: 100,
+                      width: 100,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    const Text(
+                      'Thank you! An email has been sent to:',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      'david@gmail.com',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      'Please check your inbox to verify your',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    const Text(
+                      'your email address and follow the',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    const Text(
+                      'instructions',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'Lato',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SizedBox(
+                      width: 100,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          minimumSize: const Size(double.infinity, 56),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(25),
+                              bottomRight: Radius.circular(25),
+                              bottomLeft: Radius.circular(25),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'CLOSE',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+    // ignore: avoid_print
+  );
+}
