@@ -1,11 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:eventmobile/models/event_models.dart';
 import 'package:eventmobile/screens/home/components/large_event_container.dart';
 import 'package:eventmobile/screens/home/components/small_event_container.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -88,28 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        animationDuration: const Duration(milliseconds: 200),
-        backgroundColor: Colors.white,
-        color: Colors.black87,
-        items: const [
-          Icon(
-            Icons.home,
-            color: Colors.white,
-            size: 32,
-          ),
-          Icon(
-            Icons.search,
-            color: Colors.white,
-            size: 32,
-          ),
-          Icon(
-            Icons.person,
-            color: Colors.white,
-            size: 32,
-          ),
-        ],
       ),
     );
   }
