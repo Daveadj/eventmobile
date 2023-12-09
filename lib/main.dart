@@ -1,4 +1,5 @@
-import 'package:eventmobile/screens/onboarding.dart';
+import 'package:eventmobile/screens/Auth/login_screen.dart';
+import 'package:eventmobile/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const OnboardingScreen(),
+      child: const HomeScreen(),
     );
   }
 }
