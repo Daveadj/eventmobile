@@ -15,7 +15,7 @@ class LargeEventContainer extends StatelessWidget {
     }
 
     return Container(
-      height: 260,
+      height: 220,
       width: 270,
       decoration: const BoxDecoration(
         boxShadow: [
