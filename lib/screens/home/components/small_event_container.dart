@@ -42,7 +42,7 @@ class SmallEventContainer extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: event.image,
               height: 140,
-              width: 140,
+              width: 130,
               fit: BoxFit.cover,
               placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,

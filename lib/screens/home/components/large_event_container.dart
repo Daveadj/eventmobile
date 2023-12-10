@@ -15,8 +15,8 @@ class LargeEventContainer extends StatelessWidget {
     }
 
     return Container(
-      height: 220,
-      width: 270,
+      height: 200,
+      width: 250,
       decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -38,8 +38,8 @@ class LargeEventContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
               imageUrl: event.image,
-              width: double.infinity,
-              height: double.infinity,
+              width: 250,
+              height: 200,
               fit: BoxFit.cover,
               placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,
