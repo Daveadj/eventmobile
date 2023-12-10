@@ -31,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,23 +47,47 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
               const Text(
                 "Recent Events",
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 15,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
-              LargeEventContainer(event: event),
+              const SizedBox(
+                height: 10,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    events.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 8),
+                      child: LargeEventContainer(
+                        event: events[index],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
                     'Events',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -74,14 +99,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         color: Colors.green,
                         fontFamily: 'Poppins',
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   )
                 ],
               ),
-              SmallEventContainer(event: event),
+              const SizedBox(
+                height: 10,
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: events.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 8),
+                      child: SmallEventContainer(event: events[index]),
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),
