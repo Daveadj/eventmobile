@@ -1,4 +1,5 @@
 import 'package:eventmobile/screens/Auth/forgot_password_screen.dart';
+import 'package:eventmobile/screens/entryPoint/entry_point.dart';
 import 'package:eventmobile/screens/onboarding.dart';
 import 'package:flutter/material.dart';
 
@@ -160,7 +161,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                if (formfield.currentState!.validate()) {}
+                                if (formfield.currentState!.validate()) {
+                                  Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => const EntryPoint(),
+                                ),
+                              );
+                                }
                               },
                               child: const Text(
                                 'LOGIN',

@@ -13,26 +13,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final controller = TextEditingController();
-  var event = Event(
-    description: "What's up abuja gdgsdgugdd wduhudwhdwhd",
-    image:
-        "https://img.freepik.com/free-photo/happy-birthday-party-drinking-champagne_23-2148757436.jpg",
-    id: 2,
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(
-      const Duration(days: 1),
-    ),
-  );
+  
   String formatDateTime(DateTime dateTime, String format) {
     return DateFormat(format).format(dateTime);
   }
+
+  bool isNavBarVisible = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

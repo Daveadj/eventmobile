@@ -1,5 +1,6 @@
 import 'package:eventmobile/screens/Auth/login_screen.dart';
 import 'package:eventmobile/screens/entryPoint/entry_point.dart';
+import 'package:eventmobile/screens/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

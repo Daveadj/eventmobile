@@ -55,9 +55,8 @@ class SmallEventContainer extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.all(8),
             height: 170,
-            width: 220,
+            width: 170,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(
                 Radius.circular(
@@ -94,19 +93,16 @@ class SmallEventContainer extends StatelessWidget {
                         color: Colors.black,
                       ),
                     ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    const Text(
-                      "Free",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    )
                   ],
+                ),
+                const Text(
+                  "Free",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 )
               ],
             ),
