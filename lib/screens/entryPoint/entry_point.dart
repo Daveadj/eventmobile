@@ -12,12 +12,9 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> {
-  final screens = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const ProfileScreen(),
-  ];
+ 
   int index = 0;
+  bool isNavBarVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -26,43 +23,54 @@ class _EntryPointState extends State<EntryPoint> {
         children: [
           IndexedStack(
             index: index,
-            children: screens,
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                iconTheme: const IconThemeData(color: Colors.white),
-              ),
-              child: CurvedNavigationBar(
-                index: index,
-                height: 65,
-                animationCurve: Curves.easeInOut,
-                animationDuration: const Duration(milliseconds: 300),
-                color: Colors.black87,
-                backgroundColor: Colors.transparent,
-                onTap: (index) {
+            children: [
+              HomeScreen(
+                onScroll: (isVisible) {
                   setState(() {
-                    this.index = index;
+                    isNavBarVisible = isVisible;
                   });
                 },
-                items: const [
-                  Icon(
-                    Icons.home,
-                    size: 30,
-                  ),
-                  Icon(
-                    Icons.search,
-                    size: 30,
-                  ),
-                  Icon(
-                    Icons.person,
-                    size: 30,
-                  ),
-                ],
+              ),
+              const SearchScreen(),
+              const ProfileScreen(),
+            ],
+          ),
+          if (isNavBarVisible)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  iconTheme: const IconThemeData(color: Colors.white),
+                ),
+                child: CurvedNavigationBar(
+                  index: index,
+                  height: 65,
+                  animationCurve: Curves.easeInOut,
+                  animationDuration: const Duration(milliseconds: 300),
+                  color: Colors.black87,
+                  backgroundColor: Colors.transparent,
+                  onTap: (index) {
+                    setState(() {
+                      this.index = index;
+                    });
+                  },
+                  items: const [
+                    Icon(
+                      Icons.home,
+                      size: 30,
+                    ),
+                    Icon(
+                      Icons.search,
+                      size: 30,
+                    ),
+                    Icon(
+                      Icons.person,
+                      size: 30,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
