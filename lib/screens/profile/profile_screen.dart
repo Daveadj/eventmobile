@@ -11,105 +11,128 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isSelected = true;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                height: 200,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(
-                      30,
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(
+                        30,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const Positioned(
-                bottom: -80,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.black,
-                        // You can customize the avatar with an image or initials
-                        child: Icon(
-                          Icons.person,
-                          size: 60,
-                          color: Colors.blue,
+                const Positioned(
+                  bottom: -80,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.black,
+                          // You can customize the avatar with an image or initials
+                          child: Icon(
+                            Icons.person,
+                            size: 60,
+                            color: Colors.blue,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Text(
-                        'PostMalone',
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 20,
+                        SizedBox(
+                          height: 7,
                         ),
-                      )
-                    ],
+                        Text(
+                          'PostMalone',
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 20,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
+              ],
+            ),
+            const SizedBox(
+              height: 110,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FollowColumn(
+                  number: '99',
+                  title: 'Events',
+                ),
+                FollowColumn(
+                  number: '12.5M',
+                  title: 'Followers',
+                ),
+                FollowColumn(
+                  number: '12',
+                  title: 'Following',
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 45,
+                width: 300,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                child: TabBar(
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.black,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  labelStyle: const TextStyle(
+                    fontFamily: 'lato',
+                    fontSize: 17,
+                  ),
+                  indicator: BoxDecoration(
+                    color: Colors.blue, // Set the indicator color
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                  tabs: const [
+                    Tab(
+                      text: 'Post',
+                    ),
+                    Tab(
+                      text: 'Events',
+                    )
+                  ],
+                ),
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 110,
-          ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              FollowColumn(
-                number: '99',
-                title: 'Events',
-              ),
-              FollowColumn(
-                number: '12.5M',
-                title: 'Followers',
-              ),
-              FollowColumn(
-                number: '12',
-                title: 'Following',
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              PostAndEventToggleButton(
-                isSelected: isSelected,
-                onPressed: () {
-                  setState(() {
-                    isSelected = true;
-                  });
-                },
-                title: 'Post',
-              ),
-              PostAndEventToggleButton(
-                isSelected: !isSelected,
-                onPressed: () {
-                  setState(() {
-                    isSelected = false;
-                  });
-                },
-                title: 'Events',
-              )
-            ],
-          )
-        ],
+            ),
+            Expanded(
+                child: TabBarView(
+              children: [
+                Text(
+                  'No Post available',
+                ),
+                Text(
+                  'No event available',
+                )
+              ],
+            ))
+          ],
+        ),
       ),
     );
   }
