@@ -1,4 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eventmobile/screens/profile/components/event_profile_body.dart';
+import 'package:eventmobile/screens/profile/components/post_body.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -8,6 +14,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String formatDateTime(DateTime dateTime) {
+    return DateFormat('dd MMM yyyy').format(dateTime);
+  }
+
+  String formattedDateTime(DateTime dateTime) {
+    return DateFormat('E\nd\nyyyy').format(
+        dateTime); // 'E' for abbreviated day name, 'd' for day of the month
+  }
+
   bool isSelected = true;
   @override
   Widget build(BuildContext context) {
@@ -20,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  height: 200,
+                  height: 150,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     color: Colors.blue,
@@ -57,6 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         )
                       ],
@@ -66,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
             const SizedBox(
-              height: 110,
+              height: 90,
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -120,17 +136,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            Expanded(
-                child: TabBarView(
-              children: [
-                Text(
-                  'No Post available',
-                ),
-                Text(
-                  'No event available',
-                )
-              ],
-            ))
+            const Expanded(
+              child: TabBarView(
+                children: [
+                  PostBody(),
+                  EventProfileBody(),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -138,42 +151,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-class PostAndEventToggleButton extends StatelessWidget {
-  const PostAndEventToggleButton({
-    super.key,
-    required this.onPressed,
-    required this.title,
-    required this.isSelected,
-  });
-
-  final Function() onPressed;
-  final String title;
-  final bool isSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      width: 150,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          elevation: 0,
-          backgroundColor:
-              isSelected ? const Color.fromARGB(255, 6, 86, 151) : Colors.white,
-        ),
-        child: Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'lato',
-            fontSize: 17,
-            color: isSelected ? Colors.white : Colors.black,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class FollowColumn extends StatelessWidget {
   const FollowColumn({
