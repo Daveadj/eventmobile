@@ -1,7 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:eventmobile/screens/profile/components/event_profile_body.dart';
 import 'package:eventmobile/screens/profile/components/follow_column.dart';
 import 'package:eventmobile/screens/profile/components/post_body.dart';
+import 'package:eventmobile/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -43,6 +43,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bottomRight: Radius.circular(
                         30,
                       ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 40,
+                  left: 10,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Icon(
+                      Icons.arrow_back,
+                      size: 30,
                     ),
                   ),
                 ),

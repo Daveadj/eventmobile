@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:eventmobile/screens/home/home_screen.dart';
 import 'package:eventmobile/screens/profile/profile_screen.dart';
 import 'package:eventmobile/screens/search/search_screen.dart';
+import 'package:eventmobile/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class EntryPoint extends StatefulWidget {
@@ -12,7 +13,6 @@ class EntryPoint extends StatefulWidget {
 }
 
 class _EntryPointState extends State<EntryPoint> {
- 
   int index = 0;
   bool isNavBarVisible = true;
 
@@ -32,7 +32,7 @@ class _EntryPointState extends State<EntryPoint> {
                 },
               ),
               const SearchScreen(),
-              const ProfileScreen(),
+              const SettingsScreen(),
             ],
           ),
           if (isNavBarVisible)
