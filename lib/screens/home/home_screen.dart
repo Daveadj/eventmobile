@@ -1,6 +1,7 @@
 import 'package:eventmobile/models/event_models.dart';
 import 'package:eventmobile/screens/home/components/large_event_container.dart';
 import 'package:eventmobile/screens/home/components/small_event_container.dart';
+import 'package:eventmobile/screens/home/event_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -84,8 +85,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       (index) => Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 8),
-                        child: LargeEventContainer(
-                          event: events[index],
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) => EventDetails(
+                                  event: events[index],
+                                ),
+                              ),
+                            );
+                          },
+                          child: LargeEventContainer(
+                            event: events[index],
+                          ),
                         ),
                       ),
                     ),

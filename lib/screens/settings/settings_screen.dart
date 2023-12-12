@@ -16,14 +16,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.black,
-              // You can customize the avatar with an image or initials
-              child: Icon(
-                Icons.person,
-                size: 50,
-                color: Colors.blue,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => const ProfileScreen(),
+                  ),
+                );
+              },
+              child: const CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.black,
+                // You can customize the avatar with an image or initials
+                child: Icon(
+                  Icons.person,
+                  size: 50,
+                  color: Colors.blue,
+                ),
               ),
             ),
             const Text('PostMalone'),

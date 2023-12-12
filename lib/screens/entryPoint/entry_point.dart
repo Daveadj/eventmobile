@@ -1,6 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:eventmobile/screens/home/home_screen.dart';
-import 'package:eventmobile/screens/profile/profile_screen.dart';
 import 'package:eventmobile/screens/search/search_screen.dart';
 import 'package:eventmobile/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +63,7 @@ class _EntryPointState extends State<EntryPoint> {
                       size: 30,
                     ),
                     Icon(
-                      Icons.person,
+                      Icons.settings,
                       size: 30,
                     ),
                   ],

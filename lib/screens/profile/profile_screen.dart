@@ -1,7 +1,6 @@
 import 'package:eventmobile/screens/profile/components/event_profile_body.dart';
 import 'package:eventmobile/screens/profile/components/follow_column.dart';
 import 'package:eventmobile/screens/profile/components/post_body.dart';
-import 'package:eventmobile/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
