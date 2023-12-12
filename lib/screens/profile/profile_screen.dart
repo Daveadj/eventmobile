@@ -1,10 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventmobile/screens/profile/components/event_profile_body.dart';
 import 'package:eventmobile/screens/profile/components/post_body.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -150,7 +148,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-
 
 class FollowColumn extends StatelessWidget {
   const FollowColumn({
