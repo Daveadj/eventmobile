@@ -1,18 +1,17 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:eventmobile/screens/profile/components/event_profile_body.dart';
 import 'package:eventmobile/screens/profile/components/follow_column.dart';
 import 'package:eventmobile/screens/profile/components/post_body.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class OtherUserProfileScreen extends StatefulWidget {
+  const OtherUserProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<OtherUserProfileScreen> createState() => _OtherUserProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
   String formatDateTime(DateTime dateTime) {
     return DateFormat('dd MMM yyyy').format(dateTime);
   }
@@ -48,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 const Positioned(
                   bottom: -80,
-                  left: 0,
+                  left: -280,
                   right: 0,
                   child: Center(
                     child: Column(
@@ -80,8 +79,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: 40.0, // Adjust the size of the circle as needed
+                      height: 40.0,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors
+                              .black, // Change the color of the border as needed
+                          width: 2.0,
+                        ),
+                        shape: BoxShape.circle,
+                        color: Colors
+                            .white, // Change the color of the circle as needed
+                      ),
+                      child: const Center(
+                        child: Icon(
+                          Icons.mail,
+                          color: Colors
+                              .black, // Change the color of the icon as needed
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 13,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    child: const Text(
+                      'Follow',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
             const SizedBox(
-              height: 90,
+              height: 50,
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
