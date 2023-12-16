@@ -30,7 +30,13 @@ class _EntryPointState extends State<EntryPoint> {
                   });
                 },
               ),
-              const SearchScreen(),
+              SearchScreen(
+                onScroll: (isVisible) {
+                  setState(() {
+                    isNavBarVisible = isVisible;
+                  });
+                },
+              ),
               const SettingsScreen(),
             ],
           ),

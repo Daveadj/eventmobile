@@ -31,8 +31,6 @@ class _ProfileSampleState extends State<ProfileSample> {
                 ),
               ),
               SliverPersistentHeader(
-                pinned: true,
-                floating: true,
                 delegate: MyDelegate(
                   const TabBar(
                     labelColor: Colors.black,
@@ -52,12 +50,19 @@ class _ProfileSampleState extends State<ProfileSample> {
                     ],
                   ),
                 ),
+                pinned: true,
+                floating: true,
               )
             ];
           },
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              PostBody(),
+              ListView.builder(
+                itemCount: 2,
+                itemBuilder: (context, index) {
+                  return PostBody();
+                },
+              ),
               EventProfileBody(),
             ],
           ),
