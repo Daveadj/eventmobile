@@ -1,4 +1,5 @@
 import 'package:eventmobile/screens/profile/components/follow_column.dart';
+import 'package:eventmobile/screens/profile/profile_sample.dart';
 import 'package:eventmobile/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (ctx) => const ProfileScreen(),
+                    builder: (ctx) => const ProfileSample(),
                   ),
                 );
               },
