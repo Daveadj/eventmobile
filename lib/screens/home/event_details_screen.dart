@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventmobile/models/event_models.dart';
 import 'package:eventmobile/models/ticket_models.dart';
+
+import 'package:eventmobile/screens/home/comment_screen.dart';
 import 'package:eventmobile/screens/home/components/location_widget.dart';
 import 'package:eventmobile/screens/home/components/ticket_option_tile.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +88,14 @@ class _EventDetailsState extends State<EventDetails> {
                     ),
                     const Spacer(),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return const CommentScreen();
+                          },
+                        );
+                      },
                       icon: const Icon(
                         Icons.message,
                       ),

@@ -53,7 +53,8 @@ List<Event> events = [
   ),
   Event(
     description: "What's up abuja",
-    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGFydHl8ZW58MHx8MHx8fDA%3D",
+    image:
+        "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGFydHl8ZW58MHx8MHx8fDA%3D",
     id: 2,
     startTime: DateTime.now(),
     endTime: DateTime.now().add(
@@ -62,7 +63,38 @@ List<Event> events = [
   ),
   Event(
     description: "What's up lagos",
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGFydHl8ZW58MHx8MHx8fDA%3D",
+    image:
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGFydHl8ZW58MHx8MHx8fDA%3D",
+    id: 3,
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(
+      const Duration(days: 1),
+    ),
+  ),
+  Event(
+    description: "What's up lagos",
+    image:
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGFydHl8ZW58MHx8MHx8fDA%3D",
+    id: 3,
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(
+      const Duration(days: 1),
+    ),
+  ),
+  Event(
+    description: "What's up lagos",
+    image:
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGFydHl8ZW58MHx8MHx8fDA%3D",
+    id: 3,
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(
+      const Duration(days: 1),
+    ),
+  ),
+  Event(
+    description: "What's up lagos",
+    image:
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGFydHl8ZW58MHx8MHx8fDA%3D",
     id: 3,
     startTime: DateTime.now(),
     endTime: DateTime.now().add(
