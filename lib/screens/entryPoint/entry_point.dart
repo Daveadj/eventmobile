@@ -3,15 +3,16 @@ import 'package:eventmobile/screens/home/home_screen.dart';
 import 'package:eventmobile/screens/search/search_screen.dart';
 import 'package:eventmobile/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class EntryPoint extends StatefulWidget {
+class EntryPoint extends ConsumerStatefulWidget {
   const EntryPoint({Key? key}) : super(key: key);
 
   @override
-  State<EntryPoint> createState() => _EntryPointState();
+  ConsumerState<EntryPoint> createState() => _EntryPointState();
 }
 
-class _EntryPointState extends State<EntryPoint> {
+class _EntryPointState extends ConsumerState<EntryPoint> {
   int index = 0;
   bool isNavBarVisible = true;
 

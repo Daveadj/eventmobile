@@ -1,18 +1,21 @@
 import 'package:eventmobile/screens/profile/components/follow_column.dart';
 import 'package:eventmobile/screens/profile/profile_sample.dart';
 import 'package:eventmobile/screens/profile/profile_screen.dart';
+import 'package:eventmobile/screens/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = ref.watch(themeProvider);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -102,6 +105,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               leading: const Icon(Icons.report),
               title: 'Report',
               onTap: () {},
+            ),
+            SwitchListTile(
+              title: const Text('Dark Mode'),
+              value: theme.isDarkMode,
+              onChanged: (value) {
+                final toggle = ref.read(themeProvider.notifier);
+                toggle.toggleTheme(value);
+              },
             ),
             SettingsListTile(
               leading: const Icon(Icons.logout),
