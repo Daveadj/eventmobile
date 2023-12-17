@@ -8,6 +8,15 @@ class CommentScreen extends StatefulWidget {
 }
 
 class _CommentScreenState extends State<CommentScreen> {
+  final TextEditingController _commentController = TextEditingController();
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+
+    super.dispose();
+  }
+
   List<Comment> comments = [
     Comment(
       avatar: 'A',
@@ -22,45 +31,24 @@ class _CommentScreenState extends State<CommentScreen> {
       body: 'Nice work!',
       time: '2 hours ago',
     ),
-    Comment(
-      avatar: 'B',
-      name: 'Jane Smith',
-      body: 'Nice work!',
-      time: '2 hours ago',
-    ),
-    Comment(
-      avatar: 'B',
-      name: 'Jane Smith',
-      body: 'Nice work!',
-      time: '2 hours ago',
-    ),
-    Comment(
-      avatar: 'B',
-      name: 'Jane Smith',
-      body: 'Nice work!',
-      time: '2 hours ago',
-    ),
-    Comment(
-      avatar: 'B',
-      name: 'Jane Smith',
-      body: 'Nice work!',
-      time: '2 hours ago',
-    ),
-    Comment(
-      avatar: 'B',
-      name: 'Jane Smith',
-      body: 'Nice work!',
-      time: '2 hours ago',
-    ),
-    Comment(
-      avatar: 'B',
-      name: 'Jane Smith',
-      body:
-          'Nice work! indead sisfjsjf sjdhsifaifu ihdqafqfijf dhjdiafdjad djfdijffij dijidjdfijdf djiajddin',
-      time: '2 hours ago',
-    ),
+
     // Add more comments as needed
   ];
+
+  void onsubmitted() {
+    Comment comment = Comment(
+      avatar: 'z',
+      name: 'Dave david',
+      body: _commentController.text,
+      time: '1 hour ago',
+    );
+    _commentController.clear();
+    FocusScope.of(context).unfocus();
+    setState(() {
+      comments.add(comment);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
@@ -77,28 +65,33 @@ class _CommentScreenState extends State<CommentScreen> {
                   return Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    child: SingleChildScrollView(
-                      child: CommentCard(
-                        comments: comments[index],
-                      ),
+                    child: CommentCard(
+                      comments: comments[index],
                     ),
                   );
                 },
               ),
             ),
-            SingleChildScrollView(
-              child: TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintStyle: const TextStyle(color: Colors.black),
-                  suffixIcon: const Icon(Icons.send),
-                  hintText: 'Write a comment',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+            TextFormField(
+              controller: _commentController,
+              keyboardType: TextInputType.emailAddress,
+              style: const TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                hintStyle: const TextStyle(color: Colors.black),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    onsubmitted();
+                  },
+                  child: const Icon(Icons.send),
+                ),
+                hintText: 'Write a comment',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
+              onFieldSubmitted: (value) {
+                onsubmitted();
+              },
             )
           ],
         ),
@@ -153,7 +146,7 @@ class CommentCard extends StatelessWidget {
                             style: const TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 14,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w100,
                             ),
                           ),
                           const Spacer(),
@@ -174,7 +167,7 @@ class CommentCard extends StatelessWidget {
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
