@@ -164,12 +164,10 @@ class _EventDetailsState extends State<EventDetails> {
                   height: 45,
                   width: 300,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(25.0),
                   ),
                   child: const TabBar(
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.black,
                     indicatorSize: TabBarIndicatorSize.tab,
                     labelStyle: TextStyle(
                       fontFamily: 'lato',

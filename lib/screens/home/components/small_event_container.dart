@@ -28,7 +28,7 @@ class SmallEventContainer extends StatelessWidget {
         //     offset: Offset(0, 3), // Offset of the shadow
         //   ),
         // ],
-        color: Colors.white,
+
         borderRadius: const BorderRadius.all(
           Radius.circular(
             35,
@@ -76,14 +76,12 @@ class SmallEventContainer extends StatelessWidget {
                     fontFamily: 'Poppins',
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
                   ),
                 ),
                 Row(
                   children: [
                     const Icon(
                       Icons.calendar_month,
-                      color: Colors.black,
                     ),
                     Text(
                       formatDateTime(event.startTime, 'd MMMM h:mm a'),
@@ -91,7 +89,6 @@ class SmallEventContainer extends StatelessWidget {
                         fontFamily: 'Lato',
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
                       ),
                     ),
                   ],
@@ -102,7 +99,6 @@ class SmallEventContainer extends StatelessWidget {
                     fontFamily: 'Poppins',
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
                   ),
                 )
               ],

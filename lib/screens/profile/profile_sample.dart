@@ -33,8 +33,6 @@ class _ProfileSampleState extends State<ProfileSample> {
               SliverPersistentHeader(
                 delegate: MyDelegate(
                   const TabBar(
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.black,
                     indicatorSize: TabBarIndicatorSize.tab,
                     labelStyle: TextStyle(
                       fontFamily: 'lato',
