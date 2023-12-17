@@ -55,47 +55,53 @@ class _CommentScreenState extends State<CommentScreen> {
     Comment(
       avatar: 'B',
       name: 'Jane Smith',
-      body: 'Nice work!',
+      body:
+          'Nice work! indead sisfjsjf sjdhsifaifu ihdqafqfijf dhjdiafdjad djfdijffij dijidjdfijdf djiajddin',
       time: '2 hours ago',
     ),
     // Add more comments as needed
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: comments.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                  child: SingleChildScrollView(
-                    child: CommentCard(
-                      comments: comments[index],
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: comments.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                    child: SingleChildScrollView(
+                      child: CommentCard(
+                        comments: comments[index],
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
-          SingleChildScrollView(
-            child: TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                hintStyle: const TextStyle(color: Colors.black),
-                suffixIcon: const Icon(Icons.send),
-                hintText: 'Write a comment',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                  );
+                },
               ),
             ),
-          )
-        ],
+            SingleChildScrollView(
+              child: TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintStyle: const TextStyle(color: Colors.black),
+                  suffixIcon: const Icon(Icons.send),
+                  hintText: 'Write a comment',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

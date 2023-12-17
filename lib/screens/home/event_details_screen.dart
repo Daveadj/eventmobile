@@ -90,6 +90,8 @@ class _EventDetailsState extends State<EventDetails> {
                     IconButton(
                       onPressed: () {
                         showModalBottomSheet(
+                          useSafeArea: true,
+                          isScrollControlled: true,
                           context: context,
                           builder: (context) {
                             return const CommentScreen();
