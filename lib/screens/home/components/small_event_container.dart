@@ -18,17 +18,18 @@ class SmallEventContainer extends StatelessWidget {
     return Container(
       height: 160,
       width: MediaQuery.of(context).size.width / 1.05,
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black87, // Box shadow color
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 3), // Offset of the shadow
-          ),
-        ],
-        color: Colors.blueGrey,
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.transparent),
+        // boxShadow: const [
+        //   BoxShadow(
+        //     color: Colors.black87, // Box shadow color
+        //     spreadRadius: 2,
+        //     blurRadius: 5,
+        //     offset: Offset(0, 3), // Offset of the shadow
+        //   ),
+        // ],
+        color: Colors.white,
+        borderRadius: const BorderRadius.all(
           Radius.circular(
             35,
           ),

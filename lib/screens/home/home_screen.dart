@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 8),
+                            vertical: 8, horizontal: 14),
                         child: SmallEventContainer(event: events[index]),
                       );
                     },
