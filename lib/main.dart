@@ -1,10 +1,12 @@
 import 'package:eventmobile/screens/entryPoint/entry_point.dart';
-import 'package:eventmobile/screens/profile/other_users_profile_screen.dart';
-import 'package:eventmobile/screens/profile/profile_sample.dart';
+import 'package:eventmobile/screens/home/home_screen.dart';
+import 'package:eventmobile/screens/onboarding.dart';
+import 'package:eventmobile/screens/settings/settings_screen.dart';
 import 'package:eventmobile/screens/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/main.dart';
 
 void main() {
   runApp(
