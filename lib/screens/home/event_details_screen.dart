@@ -121,6 +121,18 @@ class _EventDetailsState extends State<EventDetails> {
                       child: Image.network(
                         'https://cdn.pixabay.com/photo/2023/09/14/15/54/bird-8253245_1280.jpg',
                         fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object error,
+                            StackTrace? stackTrace) {
+                          // This function will be called when the image fails to load
+                          return Container(
+                            width: 30,
+                            height: 30,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red,
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(

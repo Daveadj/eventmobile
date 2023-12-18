@@ -60,9 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SearchScreen(),
-                          ));
+                          showSearch(
+                            context: context,
+                            delegate: MySearchDelegate(),
+                          );
                         },
                         child: const SearchContainer(),
                       ),

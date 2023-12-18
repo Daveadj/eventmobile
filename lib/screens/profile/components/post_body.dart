@@ -30,6 +30,18 @@ class PostBody extends StatelessWidget {
                 child: Image.network(
                   'https://picsum.photos/seed/468/600',
                   fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object error,
+                      StackTrace? stackTrace) {
+                    // This function will be called when the image fails to load
+                    return Container(
+                      width: 30,
+                      height: 30,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                    );
+                  },
                 ),
               ),
               Text(
