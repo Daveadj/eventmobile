@@ -5,6 +5,7 @@ import 'package:eventmobile/models/ticket_models.dart';
 import 'package:eventmobile/screens/home/comment_screen.dart';
 import 'package:eventmobile/screens/home/components/location_widget.dart';
 import 'package:eventmobile/screens/home/components/ticket_option_tile.dart';
+import 'package:eventmobile/screens/profile/other_users_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -118,19 +119,29 @@ class _EventDetailsState extends State<EventDetails> {
                         shape: BoxShape.circle,
                       ),
                       child: Image.network(
-                        'https://picsum.photos/seed/468/600',
+                        'https://cdn.pixabay.com/photo/2023/09/14/15/54/bird-8253245_1280.jpg',
                         fit: BoxFit.cover,
                       ),
                     ),
                     const SizedBox(
                       width: 3,
                     ),
-                    const Text(
-                      'PostMalone',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const OtherUserProfileScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'PostMalone',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                     const SizedBox(

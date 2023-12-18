@@ -31,13 +31,7 @@ class _EntryPointState extends ConsumerState<EntryPoint> {
                   });
                 },
               ),
-              SearchScreen(
-                onScroll: (isVisible) {
-                  setState(() {
-                    isNavBarVisible = isVisible;
-                  });
-                },
-              ),
+              SearchScreen(),
               const SettingsScreen(),
             ],
           ),
