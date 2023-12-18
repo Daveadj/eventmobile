@@ -1,7 +1,9 @@
+import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/screens/Auth/forgot_password_screen.dart';
 import 'package:eventmobile/screens/entryPoint/entry_point.dart';
 import 'package:eventmobile/screens/onboarding.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -162,11 +164,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onPressed: () {
                                 if (formfield.currentState!.validate()) {
-                                  Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (ctx) => const EntryPoint(),
-                                ),
-                              );
+                                  Future.delayed(
+                                    const Duration(seconds: 2),
+                                    () {
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                          builder: (ctx) => const EntryPoint(),
+                                        ),
+                                      );
+                                      Log.i('login successfull');
+                                    },
+                                  );
+                                  Log.i('user logging in');
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const Center(
+                                        child: SpinKitWave(
+                                          color: Colors.white,
+                                          size: 50.0,
+                                        ),
+                                      );
+                                    },
+                                  );
                                 }
                               },
                               child: const Text(
