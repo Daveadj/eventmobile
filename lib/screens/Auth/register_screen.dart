@@ -1,51 +1,25 @@
+import 'package:eventmobile/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/Auth/email_sent_dialog.dart';
 import 'package:eventmobile/screens/Auth/login_screen.dart';
 import 'package:eventmobile/screens/onboarding.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   GlobalKey<FormState> formfield = GlobalKey<FormState>();
-  String? emailValidator(String value) {
-    bool emailValid =
-        RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value);
-    if (value.isEmpty) {
-      return 'Enter Email';
-    } else if (!emailValid) {
-      return 'Enter a Valid Email';
-    } else {
-      return null;
-    }
-  }
-
-  String? passwordValidator(String value) {
-    if (value.isEmpty) {
-      return 'Enter Password';
-    } else if (value.length < 8) {
-      return 'Password Length should be more than 8 characters';
-    } else {
-      return null;
-    }
-  }
-
-  String? userNameValidator(String value) {
-    if (value.isEmpty) {
-      return 'Enter UserName';
-    } else if (value.length < 2 || value.length > 10) {
-      return 'Name Length should be between 2 to 10 characters';
-    } else {
-      return null;
-    }
-  }
+  bool obscurePassword = true;
+  bool obsscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
+    final auth = ref.read(authNotifierProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.grey.shade800,
       body: SingleChildScrollView(
@@ -113,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.white,
                             ),
                             validator: (String? value) {
-                              return userNameValidator(value!);
+                              return Validator.nameValidator(value!);
                             },
                             label: 'First Name',
                             hintText: 'First Name',
@@ -129,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.white,
                             ),
                             validator: (String? value) {
-                              return userNameValidator(value!);
+                              return Validator.nameValidator(value!);
                             },
                             label: 'Last Name',
                             hintText: 'Last Name',
@@ -145,10 +119,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.white,
                             ),
                             validator: (String? value) {
-                              return userNameValidator(value!);
+                              return Validator.userNameValidator(value!);
                             },
-                            label: 'User Name',
-                            hintText: 'User Name',
+                            label: 'UserName',
+                            hintText: 'UserName',
                             textInputType: TextInputType.emailAddress,
                             obscureText: false,
                           ),
@@ -161,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.white,
                             ),
                             validator: (String? value) {
-                              return emailValidator(value!);
+                              return Validator.emailValidator(value!);
                             },
                             label: 'Email',
                             hintText: 'Email',
@@ -173,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           InputFormField(
                             validator: (String? value) {
-                              return passwordValidator(value!);
+                              return Validator.passwordValidator(value!);
                             },
                             label: 'Password',
                             hintText: 'Password',
@@ -182,20 +156,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.white,
                             ),
                             suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.visibility_off_outlined,
+                              onPressed: () {
+                                setState(() {
+                                  obscurePassword = !obscurePassword;
+                                });
+                              },
+                              icon: Icon(
+                                obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Colors.white,
                               ),
                             ),
-                            obscureText: true,
+                            obscureText: obscurePassword,
                           ),
                           const SizedBox(
                             height: 10,
                           ),
                           InputFormField(
                             validator: (String? value) {
-                              return passwordValidator(value!);
+                              return Validator.passwordValidator(value!);
                             },
                             label: 'Confirm Password',
                             hintText: 'Confirm Password',
@@ -204,13 +184,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: Colors.white,
                             ),
                             suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.visibility_off_outlined,
+                              onPressed: () {
+                                setState(() {
+                                  obsscureConfirmPassword =
+                                      !obsscureConfirmPassword;
+                                });
+                              },
+                              icon: Icon(
+                                obsscureConfirmPassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Colors.white,
                               ),
                             ),
-                            obscureText: true,
+                            obscureText: obsscureConfirmPassword,
                           ),
                           const SizedBox(
                             height: 25,

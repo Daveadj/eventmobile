@@ -19,119 +19,122 @@ Future<Object?> customSignInDialog(
         child: child,
       );
     },
-    pageBuilder: (context, _, __) => Center(
-      child: Container(
-        height: 400,
-        width: 400,
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.94),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(
-              40,
+    pageBuilder: (context, _, __) => PopScope(
+      canPop: false,
+      child: Center(
+        child: Container(
+          height: 400,
+          width: 400,
+          margin: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.94),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(
+                40,
+              ),
             ),
           ),
-        ),
-        child: Center(
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/email.png",
-                        height: 100,
-                        width: 100,
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      const Text(
-                        'Thank you! An email has been sent to:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Lato',
+          child: Center(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: SingleChildScrollView(
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/images/email.png",
+                          height: 100,
+                          width: 100,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Text(
-                        'david@gmail.com',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
-                          fontSize: 20,
+                        const SizedBox(
+                          height: 16,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        'Please check your inbox to verify',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Lato',
+                        const Text(
+                          'Thank you! An email has been sent to:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Lato',
+                          ),
                         ),
-                      ),
-                      const Text(
-                        'your email address and follow the',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Lato',
+                        const SizedBox(
+                          height: 5,
                         ),
-                      ),
-                      const Text(
-                        'instructions',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Lato',
+                        const Text(
+                          'david@gmail.com',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      SizedBox(
-                        width: 100,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            minimumSize: const Size(double.infinity, 56),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(25),
-                                bottomRight: Radius.circular(25),
-                                bottomLeft: Radius.circular(25),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          'Please check your inbox to verify',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                        const Text(
+                          'your email address and follow the',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                        const Text(
+                          'instructions',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'Lato',
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        SizedBox(
+                          width: 100,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              minimumSize: const Size(double.infinity, 56),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(25),
+                                  bottomRight: Radius.circular(25),
+                                  bottomLeft: Radius.circular(25),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              'CLOSE',
+                              style: TextStyle(
+                                color: Colors.black,
                               ),
                             ),
                           ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'CLOSE',
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
