@@ -22,7 +22,7 @@ class _ProfileSampleState extends State<ProfileSample> {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               const SliverAppBar(
-                collapsedHeight: 250,
+                collapsedHeight: 300,
                 expandedHeight: 250,
                 flexibleSpace: Column(
                   children: [
