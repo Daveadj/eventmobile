@@ -1,9 +1,7 @@
-
-
 import 'package:logger/logger.dart';
 
 class Log {
-  static final Logger _logger = Logger(printer:CustomPrinter() );
+  static final Logger _logger = Logger();
 
   static void d(String message) {
     _logger.d(message);
@@ -22,7 +20,7 @@ class Log {
   }
 }
 
-class CustomPrinter extends LogPrinter{
+class CustomPrinter extends LogPrinter {
   @override
   List<String> log(LogEvent event) {
     final color = PrettyPrinter.defaultLevelColors[event.level];
@@ -30,5 +28,4 @@ class CustomPrinter extends LogPrinter{
     final message = event.message;
     return [color!('$emoji: $message')];
   }
-
 }

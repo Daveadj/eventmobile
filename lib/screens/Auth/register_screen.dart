@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:eventmobile/models/register_model.dart';
 import 'package:eventmobile/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/Auth/email_sent_dialog.dart';
 import 'package:eventmobile/screens/Auth/login_screen.dart';
@@ -14,12 +17,28 @@ class RegisterScreen extends ConsumerStatefulWidget {
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   GlobalKey<FormState> formfield = GlobalKey<FormState>();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final userNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   bool obscurePassword = true;
   bool obsscureConfirmPassword = true;
 
   @override
+  void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
+    userNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final auth = ref.read(authNotifierProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.grey.shade800,
       body: SingleChildScrollView(
@@ -82,6 +101,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           InputFormField(
+                            controller: firstNameController,
                             prefixIcon: const Icon(
                               Icons.person,
                               color: Colors.white,
@@ -98,6 +118,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             height: 10,
                           ),
                           InputFormField(
+                            controller: lastNameController,
                             prefixIcon: const Icon(
                               Icons.person,
                               color: Colors.white,
@@ -114,6 +135,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             height: 10,
                           ),
                           InputFormField(
+                            controller: userNameController,
                             prefixIcon: const Icon(
                               Icons.person,
                               color: Colors.white,
@@ -130,6 +152,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             height: 10,
                           ),
                           InputFormField(
+                            controller: emailController,
                             prefixIcon: const Icon(
                               Icons.email_outlined,
                               color: Colors.white,
@@ -146,6 +169,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             height: 10,
                           ),
                           InputFormField(
+                            controller: passwordController,
                             validator: (String? value) {
                               return Validator.passwordValidator(value!);
                             },
@@ -174,8 +198,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             height: 10,
                           ),
                           InputFormField(
+                            controller: confirmPasswordController,
                             validator: (String? value) {
-                              return Validator.passwordValidator(value!);
+                              if (value != passwordController.text) {
+                                return 'Password do not match';
+                              } else {
+                                return null;
+                              }
                             },
                             label: 'Confirm Password',
                             hintText: 'Confirm Password',
@@ -218,9 +247,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   ),
                                 ),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (formfield.currentState!.validate()) {
-                                  customSignInDialog(context);
+                                  var register = Register(
+                                      firstName: firstNameController.text,
+                                      lastName: lastNameController.text,
+                                      userName: userNameController.text,
+                                      password: passwordController.text,
+                                      confirmPassword:
+                                          confirmPasswordController.text,
+                                      email: emailController.text);
+
+                                   await ref
+                                      .read(authNotifierProvider.notifier)
+                                      .registerUser(context, register);
                                 }
                               },
                               child: const Text(

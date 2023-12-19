@@ -34,7 +34,7 @@ class MyApp extends ConsumerWidget {
           home: child,
         );
       },
-      child: const EntryPoint(),
+      child: const OnboardingScreen(),
     );
   }
 }

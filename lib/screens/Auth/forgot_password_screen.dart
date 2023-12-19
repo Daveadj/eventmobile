@@ -11,6 +11,8 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   GlobalKey<FormState> formfield = GlobalKey<FormState>();
+   final emailController = TextEditingController();
+
 
   String? emailValidator(String value) {
     bool emailValid =
@@ -97,6 +99,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           InputFormField(
+                            controller:emailController ,
                             prefixIcon: const Icon(
                               Icons.email_outlined,
                               color: Colors.white,

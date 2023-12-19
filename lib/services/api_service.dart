@@ -1,14 +1,17 @@
-
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-class ApiService{
-  final String _baseUrl = "https://newtonbreakoutrevival.onrender.com/";
+import 'package:http/http.dart';
+
+class ApiService {
+  final String _baseUrl = 'https://eventapp-dev-ggxr.4.us-1.fl0.io/api';
   static const Map<String, String> defaultheader = {
     'Content-Type': 'application/json',
   };
 
-  Future<dynamic> get(String endpoint) async {
+  get url => _baseUrl;
+
+  Future<Response> get(String endpoint) async {
     final url = Uri.parse("$_baseUrl$endpoint");
     final response = await http.get(
       url,
@@ -17,7 +20,7 @@ class ApiService{
     return response;
   }
 
-  Future<dynamic> post(
+  Future<Response> post(
     String endpoint, {
     required Map<String, dynamic> body,
   }) async {

@@ -13,7 +13,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   GlobalKey<FormState> formfield = GlobalKey<FormState>();
+   final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   String? emailValidator(String value) {
     bool emailValid =
@@ -109,6 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           InputFormField(
+                            controller: emailController,
                             prefixIcon: const Icon(
                               Icons.email_outlined,
                               color: Colors.white,
@@ -125,6 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 30,
                           ),
                           InputFormField(
+                            controller: passwordController,
                             validator: (String? value) {
                               return passwordValidator(value!);
                             },
@@ -245,7 +250,7 @@ class InputFormField extends StatelessWidget {
       this.textInputType,
       required this.obscureText,
       this.suffixIcon,
-      this.prefixIcon});
+      this.prefixIcon, required this.controller});
 
   final String? Function(String? value) validator;
   final String label;
@@ -254,10 +259,12 @@ class InputFormField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        controller: controller,
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(color: Colors.white),
         obscureText: obscureText,
