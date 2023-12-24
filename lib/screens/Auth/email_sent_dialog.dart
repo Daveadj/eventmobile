@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 Future<Object?> customSignInDialog(
   BuildContext context,
+  String email
 ) {
   return showGeneralDialog(
     barrierDismissible: true,
@@ -63,10 +64,10 @@ Future<Object?> customSignInDialog(
                         const SizedBox(
                           height: 5,
                         ),
-                        const Text(
-                          'david@gmail.com',
+                         Text(
+                          email,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Poppins',
                             fontSize: 20,

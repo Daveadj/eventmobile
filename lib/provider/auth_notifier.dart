@@ -29,7 +29,7 @@ class AuthNotifier extends ChangeNotifier {
       loader.close();
 
       if (response.statusCode == 200) {
-        customSignInDialog(context);
+        customSignInDialog(context,register.email);
         Log.i('Register User succesfully');
         notifyListeners();
       } else {
