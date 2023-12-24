@@ -6,6 +6,7 @@ import 'package:eventmobile/screens/home/comment_screen.dart';
 import 'package:eventmobile/screens/home/components/location_widget.dart';
 import 'package:eventmobile/screens/home/components/ticket_option_tile.dart';
 import 'package:eventmobile/screens/profile/other_users_profile_screen.dart';
+import 'package:eventmobile/screens/ticket/ticket_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -214,8 +215,15 @@ class _EventDetailsState extends State<EventDetails> {
                     ListView.builder(
                       itemCount: ticketOptions.length,
                       itemBuilder: (context, index) {
-                        return TicketOptionTile(
-                          ticketOption: ticketOptions[index],
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => TicketScreen(),
+                            ));
+                          },
+                          child: TicketOptionTile(
+                            ticketOption: ticketOptions[index],
+                          ),
                         );
                       },
                     ),

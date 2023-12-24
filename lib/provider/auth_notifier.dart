@@ -1,6 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:eventmobile/logging.dart';
@@ -8,10 +7,11 @@ import 'package:eventmobile/models/register_model.dart';
 import 'package:eventmobile/screens/Auth/email_sent_dialog.dart';
 import 'package:eventmobile/services/api_service.dart';
 import 'package:eventmobile/services/loader.dart';
+import 'package:eventmobile/services/snackbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:http/http.dart' as http;
 
 class AuthNotifier extends ChangeNotifier {
   ApiService apiService = ApiService();
@@ -33,7 +33,7 @@ class AuthNotifier extends ChangeNotifier {
         Log.i('Register User succesfully');
         notifyListeners();
       } else {
-        _showErrorSnackBar(context, ' ${response.body}');
+        SnackBarHelper.showErrorSnackBar(context, ' ${response.body}', false);
       }
     } on ClientException catch (e) {
       Log.e(' clientException ${e.message}');
@@ -49,31 +49,21 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  void _showErrorSnackBar(BuildContext context, String errorMessage) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 2),
-        content: Text(
-          errorMessage,
-          style: const TextStyle(fontSize: 20),
-        ),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
-
   void _handleClientException(BuildContext context, ClientException e) {
-    _showErrorSnackBar(context, 'Client exception: ${e.message}');
+    SnackBarHelper.showErrorSnackBar(
+        context, 'Client exception: ${e.message}', false);
     // Handle client-specific exceptions here
   }
 
   void _handleSocketException(BuildContext context, SocketException e) {
-    _showErrorSnackBar(context, 'Network error: ${e.message}');
+    SnackBarHelper.showErrorSnackBar(
+        context, 'Network error: ${e.message}', false);
     // Handle socket-specific exceptions here
   }
 
   void _handleGenericException(BuildContext context, dynamic e) {
-    _showErrorSnackBar(context, 'An error occurred: ${e.toString()}');
+    SnackBarHelper.showErrorSnackBar(
+        context, 'An error occurred: ${e.toString()}', false);
     // Handle other exceptions here
   }
 }
