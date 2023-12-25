@@ -2,9 +2,7 @@ import 'package:eventmobile/screens/Auth/login_screen.dart';
 import 'package:flutter/material.dart';
 
 Future<Object?> customSignInDialog(
-  BuildContext context,
-  String email
-) {
+    BuildContext context, String email, bool isSignIn) {
   return showGeneralDialog(
     barrierDismissible: true,
     barrierLabel: "Sign In",
@@ -64,7 +62,7 @@ Future<Object?> customSignInDialog(
                         const SizedBox(
                           height: 5,
                         ),
-                         Text(
+                        Text(
                           email,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
@@ -76,16 +74,20 @@ Future<Object?> customSignInDialog(
                         const SizedBox(
                           height: 10,
                         ),
-                        const Text(
-                          'Please check your inbox to verify',
-                          style: TextStyle(
+                        Text(
+                          isSignIn
+                              ? 'Please check your inbox to verify'
+                              : 'Please check your inbox to reset',
+                          style: const TextStyle(
                             fontSize: 18,
                             fontFamily: 'Lato',
                           ),
                         ),
-                        const Text(
-                          'your email address and follow the',
-                          style: TextStyle(
+                        Text(
+                          isSignIn
+                              ? 'your email address and follow the'
+                              : 'your password and follow the',
+                          style: const TextStyle(
                             fontSize: 18,
                             fontFamily: 'Lato',
                           ),

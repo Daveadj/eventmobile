@@ -1,28 +1,24 @@
 import 'package:eventmobile/screens/Auth/email_sent_dialog.dart';
 import 'package:eventmobile/screens/Auth/login_screen.dart';
+import 'package:eventmobile/screens/Auth/provider/auth_notifier.dart';
+import 'package:eventmobile/services/validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ForgotPassword extends StatefulWidget {
+class ForgotPassword extends ConsumerStatefulWidget {
   const ForgotPassword({super.key});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  ConsumerState<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
   GlobalKey<FormState> formfield = GlobalKey<FormState>();
   final emailController = TextEditingController();
-
-  String? emailValidator(String value) {
-    bool emailValid =
-        RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value);
-    if (value.isEmpty) {
-      return 'Enter Email';
-    } else if (!emailValid) {
-      return 'Enter a Valid Email';
-    } else {
-      return null;
-    }
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
   }
 
   @override
@@ -104,7 +100,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               color: Colors.white,
                             ),
                             validator: (String? value) {
-                              return emailValidator(value!);
+                              return Validator.emailValidator(value!);
                             },
                             label: 'Email',
                             hintText: 'Email',
@@ -130,10 +126,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   ),
                                 ),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (formfield.currentState!.validate()) {
-                                  customSignInDialog(
-                                      context, emailController.text);
+                                  await ref
+                                      .read(authNotifierProvider.notifier)
+                                      .resetPassword(
+                                          context, emailController.text);
                                 }
                               },
                               child: const Text(

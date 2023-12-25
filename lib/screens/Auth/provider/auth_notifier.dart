@@ -33,7 +33,7 @@ class AuthNotifier extends ChangeNotifier {
       loader.close();
 
       if (response.statusCode == 200) {
-        customSignInDialog(context, register.email);
+        customSignInDialog(context, register.email, true);
         Log.i('Register User succesfully');
         notifyListeners();
       } else {
@@ -85,6 +85,41 @@ class AuthNotifier extends ChangeNotifier {
             builder: (context) => const EntryPoint(),
           ),
         );
+        notifyListeners();
+      } else {
+        SnackBarHelper.showErrorSnackBar(context, ' ${response.body}', false);
+      }
+    } on ClientException catch (e) {
+      Log.e(' clientException ${e.message}');
+      _handleClientException(context, e);
+    } on SocketException catch (e) {
+      Log.e('socketException ${e.message}');
+      _handleSocketException(context, e);
+    } catch (e) {
+      _handleGenericException(context, e);
+    } finally {
+      loader.close();
+      notifyListeners();
+    }
+  }
+
+  Future<void> resetPassword(BuildContext context, String email) async {
+    final loader = Loader(context: context);
+    Log.i('reset password');
+    final Map<String, dynamic> body = {
+      'email': email.trim(),
+    };
+    try {
+      loader.show();
+      Log.i('trying to reset password');
+      final response = await apiService
+          .post('/Authentication/InitiateResetPassword', body: body);
+      Log.i('tried to reset password');
+      loader.close();
+
+      if (response.statusCode == 200) {
+        customSignInDialog(context, email, false);
+        Log.i('password reset succesfully');
         notifyListeners();
       } else {
         SnackBarHelper.showErrorSnackBar(context, ' ${response.body}', false);
