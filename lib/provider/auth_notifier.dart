@@ -1,14 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/models/register_model.dart';
+import 'package:eventmobile/models/user_models.dart';
 import 'package:eventmobile/screens/Auth/email_sent_dialog.dart';
+import 'package:eventmobile/screens/entryPoint/entry_point.dart';
+import 'package:eventmobile/screens/onboarding.dart';
 import 'package:eventmobile/services/api_service.dart';
 import 'package:eventmobile/services/loader.dart';
 import 'package:eventmobile/services/snackbar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:eventmobile/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
@@ -29,7 +33,7 @@ class AuthNotifier extends ChangeNotifier {
       loader.close();
 
       if (response.statusCode == 200) {
-        customSignInDialog(context,register.email);
+        customSignInDialog(context, register.email);
         Log.i('Register User succesfully');
         notifyListeners();
       } else {
@@ -46,6 +50,75 @@ class AuthNotifier extends ChangeNotifier {
     } finally {
       loader.close();
       notifyListeners();
+    }
+  }
+
+  Future<void> loginUser(
+      BuildContext context, String email, String password) async {
+    final loader = Loader(context: context);
+    Log.i('Login User');
+
+    final Map<String, dynamic> body = {
+      'email': email.trim(),
+      'password': password.trim(),
+    };
+    try {
+      loader.show();
+      Log.i('trying to register User');
+      final response =
+          await apiService.post('/Authentication/Login', body: body);
+      Log.i('tried to Login User');
+      loader.close();
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> listData = jsonDecode(response.body);
+
+        final UserModel model = UserModel.fromMap(listData);
+
+        await UserStorage.setToken(model.token);
+        await UserStorage.setUserid(model.userId);
+        await UserStorage.setUsername(model.username);
+
+        Log.i('Login User succesfully');
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const EntryPoint(),
+          ),
+        );
+        notifyListeners();
+      } else {
+        SnackBarHelper.showErrorSnackBar(context, ' ${response.body}', false);
+      }
+    } on ClientException catch (e) {
+      Log.e(' clientException ${e.message}');
+      _handleClientException(context, e);
+    } on SocketException catch (e) {
+      Log.e('socketException ${e.message}');
+      _handleSocketException(context, e);
+    } catch (e) {
+      _handleGenericException(context, e);
+    } finally {
+      loader.close();
+      notifyListeners();
+    }
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await UserStorage.clear();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const OnboardingScreen(),
+      ),
+    );
+  }
+
+  Future<bool> isLoggedIn() async {
+    // Check if there is a token or any other criteria to determine if the user is logged in
+    var token = await UserStorage.getUserid();
+    if (token == null) {
+      return false;
+    } else {
+      return true;
     }
   }
 

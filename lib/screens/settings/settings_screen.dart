@@ -1,7 +1,9 @@
+import 'package:eventmobile/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/profile/components/follow_column.dart';
 import 'package:eventmobile/screens/profile/profile_sample.dart';
 import 'package:eventmobile/screens/profile/profile_screen.dart';
 import 'package:eventmobile/screens/theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,6 +15,37 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
+  void _logOut(BuildContext context) {
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return CupertinoAlertDialog(
+            title: const Text('Please Confirm'),
+            content: const Text('Are you sure you want to Logout?'),
+            actions: [
+              // The "Yes" button
+              CupertinoDialogAction(
+                onPressed: () async {
+                  await ref.read(authNotifierProvider.notifier).logout(context);
+                },
+                isDefaultAction: true,
+                isDestructiveAction: true,
+                child: const Text('Yes'),
+              ),
+              // The "No" button
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                isDefaultAction: false,
+                isDestructiveAction: false,
+                child: const Text('No'),
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = ref.watch(themeProvider);
@@ -117,7 +150,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             SettingsListTile(
               leading: const Icon(Icons.logout),
               title: 'Logout',
-              onTap: () {},
+              onTap: () {
+                _logOut(context);
+              },
             )
           ],
         ),

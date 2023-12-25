@@ -1,43 +1,28 @@
-import 'package:eventmobile/logging.dart';
+import 'package:eventmobile/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/Auth/forgot_password_screen.dart';
-import 'package:eventmobile/screens/entryPoint/entry_point.dart';
 import 'package:eventmobile/screens/onboarding.dart';
+import 'package:eventmobile/services/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   GlobalKey<FormState> formfield = GlobalKey<FormState>();
-   final emailController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool obscurePassword = true;
 
-  String? emailValidator(String value) {
-    bool emailValid =
-        RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value);
-    if (value.isEmpty) {
-      return 'Enter Email';
-    } else if (!emailValid) {
-      return 'Enter a Valid Email';
-    } else {
-      return null;
-    }
-  }
-
-  String? passwordValidator(String value) {
-    if (value.isEmpty) {
-      return 'Enter Password';
-    } else if (value.length < 8) {
-      return 'Password Length should be more than 8 characters';
-    } else {
-      return null;
-    }
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -118,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.white,
                             ),
                             validator: (String? value) {
-                              return emailValidator(value!);
+                              return Validator.emailValidator(value!);
                             },
                             label: 'Email',
                             hintText: 'Email',
@@ -130,8 +115,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           InputFormField(
                             controller: passwordController,
-                            validator: (String? value) {
-                              return passwordValidator(value!);
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter password';
+                              }
+                              return null;
                             },
                             label: 'Password',
                             hintText: 'Password',
@@ -140,13 +128,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.white,
                             ),
                             suffixIcon: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.visibility_off_outlined,
+                              onPressed: () {
+                                setState(() {
+                                  obscurePassword = !obscurePassword;
+                                });
+                              },
+                              icon: Icon(
+                                obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
                                 color: Colors.white,
                               ),
                             ),
-                            obscureText: true,
+                            obscureText: obscurePassword,
                           ),
                           const SizedBox(
                             height: 30,
@@ -167,32 +161,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (formfield.currentState!.validate()) {
-                                  Future.delayed(
-                                    const Duration(seconds: 2),
-                                    () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (ctx) => const EntryPoint(),
-                                        ),
-                                      );
-                                      Log.i('login successfull');
-                                    },
-                                  );
-                                  Log.i('user logging in');
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return const Center(
-                                        child: SpinKitWave(
-                                          color: Colors.white,
-                                          size: 50.0,
-                                        ),
-                                      );
-                                    },
-                                  );
+                                  await ref
+                                      .read(authNotifierProvider.notifier)
+                                      .loginUser(context, emailController.text,
+                                          passwordController.text);
                                 }
                               },
                               child: const Text(
@@ -250,7 +224,8 @@ class InputFormField extends StatelessWidget {
       this.textInputType,
       required this.obscureText,
       this.suffixIcon,
-      this.prefixIcon, required this.controller});
+      this.prefixIcon,
+      required this.controller});
 
   final String? Function(String? value) validator;
   final String label;
