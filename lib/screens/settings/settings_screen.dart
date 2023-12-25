@@ -1,4 +1,4 @@
-import 'package:eventmobile/provider/auth_notifier.dart';
+import 'package:eventmobile/screens/Auth/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/profile/components/follow_column.dart';
 import 'package:eventmobile/screens/profile/profile_sample.dart';
 import 'package:eventmobile/screens/profile/profile_screen.dart';

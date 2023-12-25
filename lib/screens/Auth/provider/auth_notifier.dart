@@ -64,7 +64,7 @@ class AuthNotifier extends ChangeNotifier {
     };
     try {
       loader.show();
-      Log.i('trying to register User');
+      Log.i('trying to Login User');
       final response =
           await apiService.post('/Authentication/Login', body: body);
       Log.i('tried to Login User');

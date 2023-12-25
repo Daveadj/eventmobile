@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:eventmobile/models/register_model.dart';
-import 'package:eventmobile/provider/auth_notifier.dart';
+import 'package:eventmobile/screens/Auth/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/Auth/email_sent_dialog.dart';
 import 'package:eventmobile/screens/Auth/login_screen.dart';
 import 'package:eventmobile/screens/onboarding.dart';

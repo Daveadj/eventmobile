@@ -1,4 +1,4 @@
-import 'package:eventmobile/provider/auth_notifier.dart';
+import 'package:eventmobile/screens/Auth/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/entryPoint/entry_point.dart';
 import 'package:eventmobile/screens/home/home_screen.dart';
 import 'package:eventmobile/screens/onboarding.dart';

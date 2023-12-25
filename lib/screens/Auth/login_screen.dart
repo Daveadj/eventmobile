@@ -1,4 +1,4 @@
-import 'package:eventmobile/provider/auth_notifier.dart';
+import 'package:eventmobile/screens/Auth/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/Auth/forgot_password_screen.dart';
 import 'package:eventmobile/screens/onboarding.dart';
 import 'package:eventmobile/services/validator.dart';
