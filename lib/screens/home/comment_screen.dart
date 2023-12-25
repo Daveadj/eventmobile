@@ -75,9 +75,7 @@ class _CommentScreenState extends State<CommentScreen> {
             TextFormField(
               controller: _commentController,
               keyboardType: TextInputType.emailAddress,
-              style: const TextStyle(color: Colors.black),
               decoration: InputDecoration(
-                hintStyle: const TextStyle(color: Colors.black),
                 suffixIcon: GestureDetector(
                   onTap: () {
                     onsubmitted();

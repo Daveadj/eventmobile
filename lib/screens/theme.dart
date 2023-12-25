@@ -1,15 +1,30 @@
 import 'package:eventmobile/logging.dart';
+import 'package:eventmobile/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ThemeNotifier extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.light;
-
+  ThemeNotifier() {
+    _loadThemeMode();
+  }
   bool get isDarkMode => themeMode == ThemeMode.dark;
 
-  void toggleTheme(bool isOn) {
+  Future<void> toggleTheme(bool isOn) async {
     themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+    await UserStorage.setThememode(isOn ? 'dark' : 'light');
     Log.i('Theme toggled to: $themeMode');
+
+    notifyListeners();
+  }
+
+  Future<void> _loadThemeMode() async {
+    String? savedThemeMode = await UserStorage.getThememode();
+
+    themeMode = savedThemeMode == 'dark' ? ThemeMode.dark : ThemeMode.light;
+
+    Log.i('Loaded theme mode: $themeMode');
+
     notifyListeners();
   }
 }
