@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/screens/Auth/provider/auth_notifier.dart';
 import 'package:eventmobile/screens/entryPoint/entry_point.dart';
 import 'package:eventmobile/screens/onboarding.dart';
@@ -66,11 +67,13 @@ class StartUpScreen extends ConsumerWidget {
         } else {
           // Check if the user is logged in
           final bool isLoggedIn = snapshot.data ?? false;
-    
+
           // Navigate to the appropriate screen
           if (isLoggedIn) {
+            Log.i('userLoggedIn: true');
             return const EntryPoint();
           } else {
+            Log.i('userLoggedIn: false');
             return const OnboardingScreen();
           }
         }
