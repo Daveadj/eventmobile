@@ -1,5 +1,6 @@
 import 'package:eventmobile/models/event_models.dart';
 import 'package:eventmobile/screens/home/components/large_event_container.dart';
+import 'package:eventmobile/screens/home/components/search_container.dart';
 import 'package:eventmobile/screens/home/components/small_event_container.dart';
 import 'package:eventmobile/screens/home/event_details_screen.dart';
 import 'package:eventmobile/screens/search/search_screen.dart';
@@ -16,23 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final controller = TextEditingController();
-
-  var event = Event(
-    description: "What's up abuja gdgsdgugdd wduhudwhdwhd",
-    image:
-        "https://img.freepik.com/free-photo/happy-birthday-party-drinking-champagne_23-2148757436.jpg",
-    id: 2,
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(
-      const Duration(days: 1),
-    ),
-  );
-
-  String formatDateTime(DateTime dateTime, String format) {
-    return DateFormat(format).format(dateTime);
-  }
-
   bool isNavBarVisible = true;
 
   @override
@@ -176,42 +160,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class SearchContainer extends StatelessWidget {
-  const SearchContainer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey,
-            width: 1.0,
-          ),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: const Row(
-          children: [
-            Icon(Icons.search, color: Colors.grey),
-            SizedBox(width: 10.0),
-            Expanded(
-              child: TextField(
-                enabled: false,
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
