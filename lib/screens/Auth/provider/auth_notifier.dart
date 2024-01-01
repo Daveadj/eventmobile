@@ -87,7 +87,7 @@ class AuthNotifier extends ChangeNotifier {
         );
         notifyListeners();
       } else {
-        SnackBarHelper.showErrorSnackBar(context, ' ${response.body}', false);
+        SnackBarHelper.showErrorSnackBar(context, response.body, false);
       }
     } on ClientException catch (e) {
       Log.e(' clientException ${e.message}');

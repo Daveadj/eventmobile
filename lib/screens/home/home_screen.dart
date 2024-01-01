@@ -1,23 +1,34 @@
+import 'dart:async';
+
+import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/models/event_models.dart';
 import 'package:eventmobile/screens/home/components/large_event_container.dart';
 import 'package:eventmobile/screens/home/components/search_container.dart';
 import 'package:eventmobile/screens/home/components/small_event_container.dart';
 import 'package:eventmobile/screens/home/event_details_screen.dart';
+import 'package:eventmobile/screens/home/provider/home_notifier.dart';
 import 'package:eventmobile/screens/search/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   final Function(bool) onScroll;
 
   const HomeScreen({Key? key, required this.onScroll}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isNavBarVisible = true;
+
+  @override
+  void initState() {
+    ref.read(homeNotifierProvider).fetchEvent(context);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

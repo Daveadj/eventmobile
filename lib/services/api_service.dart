@@ -1,13 +1,21 @@
 import 'dart:convert';
 
+import 'package:eventmobile/services/storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class ApiService {
   final String _baseUrl = 'https://eventapp-dev-ggxr.4.us-1.fl0.io/api';
-  static const Map<String, String> defaultheader = {
-    'Content-Type': 'application/json',
-  };
+
+  static Future<Map<String, String>> headers() async {
+    var token = await UserStorage.getToken();
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    return headers;
+  }
 
   get url => _baseUrl;
 
@@ -15,7 +23,7 @@ class ApiService {
     final url = Uri.parse("$_baseUrl$endpoint");
     final response = await http.get(
       url,
-      headers: defaultheader,
+      headers: await headers(),
     );
     return response;
   }
@@ -28,7 +36,7 @@ class ApiService {
     final response = await http.post(
       url,
       body: jsonEncode(body),
-      headers: defaultheader,
+      headers: await headers(),
     );
     // print(response.body);
     return response;
