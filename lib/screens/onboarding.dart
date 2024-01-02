@@ -126,6 +126,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     const Text(
                       'Get invovled with events and people\naround you',
                       style: TextStyle(
+                          color: Colors.black,
                           fontFamily: 'Lato',
                           fontSize: 15,
                           fontWeight: FontWeight.w600),
@@ -166,6 +167,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         const Text(
                           'Or Create Account',
                           style: TextStyle(
+                              color: Colors.black,
                               fontFamily: 'Lato',
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
@@ -180,6 +182,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           },
                           icon: const Icon(
                             Icons.arrow_right_alt,
+                            color: Colors.black,
                             size: 50,
                           ),
                         )

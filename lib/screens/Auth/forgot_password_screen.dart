@@ -60,6 +60,7 @@ class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
                       const Text(
                         'Forgot\nPassword',
                         style: TextStyle(
+                          color: Colors.black,
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Lato',

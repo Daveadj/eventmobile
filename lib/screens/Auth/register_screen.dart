@@ -70,6 +70,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         },
                         child: const Icon(
                           Icons.arrow_back,
+                           color: Colors.black,
                           size: 30,
                         ),
                       ),
@@ -77,6 +78,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       const Text(
                         'Create\nAccount',
                         style: TextStyle(
+                           color: Colors.black,
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Lato',

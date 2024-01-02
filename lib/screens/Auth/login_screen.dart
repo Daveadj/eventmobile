@@ -57,6 +57,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         },
                         child: const Icon(
                           Icons.arrow_back,
+                          color: Colors.black,
                           size: 30,
                         ),
                       ),
@@ -64,6 +65,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       const Text(
                         'Welcome\nBack!',
                         style: TextStyle(
+                          color: Colors.black,
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Lato',
@@ -72,6 +74,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       const Text(
                         'continue your adventure',
                         style: TextStyle(
+                          color: Colors.black,
                           fontFamily: 'Lato',
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
