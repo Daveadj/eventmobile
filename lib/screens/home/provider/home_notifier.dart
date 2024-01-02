@@ -11,8 +11,11 @@ class HomeNotifier extends ChangeNotifier {
 
   HomeNotifier(this.authNotifier);
   List<NewEvent> _events = [];
+  // ignore: prefer_final_fields
+  List<NewEvent> _recentEvents = [];
 
   List<NewEvent> get events => _events;
+  List<NewEvent> get recentEvents => _recentEvents;
   Future<void> fetchEvent(BuildContext context) async {
     Log.i('trying to get all event');
     try {
@@ -23,9 +26,23 @@ class HomeNotifier extends ChangeNotifier {
       if (response.statusCode == 200) {
         List<Map<String, dynamic>> data = [];
         _events = data.map((eventData) => NewEvent.fromMap(eventData)).toList();
+        _recentEvents = _events.where(
+          (event) {
+            DateTime eventDate = event.startTime;
+            DateTime currentDate = DateTime.now();
+
+            return eventDate.isAfter(currentDate) &&
+                eventDate.isBefore(
+                  currentDate.add(
+                    const Duration(days: 10),
+                  ),
+                );
+          },
+        ).toList();
         Log.i('got all event');
         notifyListeners();
       } else if (response.statusCode == 400 || response.statusCode == 401) {
+        // ignore: use_build_context_synchronously
         authNotifier.logout(context);
       } else {
         Log.i('${response.statusCode}');

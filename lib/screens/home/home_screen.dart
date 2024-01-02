@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/models/event_models.dart';
 import 'package:eventmobile/screens/home/components/large_event_container.dart';
 import 'package:eventmobile/screens/home/components/search_container.dart';
@@ -32,6 +29,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var newEvent = ref.watch(homeNotifierProvider).events;
+    var recentEvents = ref.watch(homeNotifierProvider).recentEvents;
     return Scaffold(
       extendBody: true,
       body: SafeArea(
@@ -48,8 +47,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  collapsedHeight: 330,
-                  expandedHeight: 330,
+                  collapsedHeight: recentEvents.isEmpty ? 70 : 330,
+                  expandedHeight: recentEvents.isEmpty ? 0 : 330,
                   flexibleSpace: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -65,28 +64,106 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          "Recent Events",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      recentEvents.isEmpty
+                          ? Container()
+                          : const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
+                                "Recent Events",
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      recentEvents.isEmpty
+                          ? Container()
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(
+                                  events.length,
+                                  (index) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 8),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (ctx) => EventDetails(
+                                              event: events[index],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: LargeEventContainer(
+                                        event: events[index],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                    ],
+                  ),
+                )
+              ];
+            },
+            body: newEvent.isEmpty
+                ? const Center(
+                    child: Text(
+                      'No events',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  )
+                : Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Events',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Spacer(),
+                            GestureDetector(
+                              child: const Text(
+                                'View all',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(
-                            events.length,
-                            (index) => Padding(
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: newEvent.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 8),
+                                  vertical: 8, horizontal: 14),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.of(context).push(
@@ -97,79 +174,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                   );
                                 },
-                                child: LargeEventContainer(
-                                  event: events[index],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ];
-            },
-            body: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Events',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Spacer(),
-                      GestureDetector(
-                        child: const Text(
-                          'View all',
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontFamily: 'Poppins',
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: events.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 14),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (ctx) => EventDetails(
+                                child: SmallEventContainer(
                                   event: events[index],
                                 ),
                               ),
                             );
                           },
-                          child: SmallEventContainer(
-                            event: events[index],
-                          ),
                         ),
-                      );
-                    },
+                      )
+                    ],
                   ),
-                )
-              ],
-            ),
           ),
         ),
       ),
