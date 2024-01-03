@@ -1,45 +1,41 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+NewEvent newEventFromJson(String str) => NewEvent.fromJson(json.decode(str));
+
+String newEventToJson(NewEvent data) => json.encode(data.toJson());
+
 class NewEvent {
-  final int id;
-  final String description;
-  final DateTime startTime;
-  final String title;
-  final String location;
-  final String organiserId;
-  NewEvent({
-    required this.id,
-    required this.description,
-    required this.startTime,
-    required this.title,
-    required this.location,
-    required this.organiserId,
-  });
+    int id;
+    String description;
+    DateTime startTime;
+    String title;
+    String location;
+    String organizerId;
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'description': description,
-      'startTime': startTime.millisecondsSinceEpoch,
-      'title': title,
-      'location': location,
-      'organiserId': organiserId,
-    };
-  }
+    NewEvent({
+        required this.id,
+        required this.description,
+        required this.startTime,
+        required this.title,
+        required this.location,
+        required this.organizerId,
+    });
 
-  factory NewEvent.fromMap(Map<String, dynamic> map) {
-    return NewEvent(
-      id: map['id'] as int,
-      description: map['description'] as String,
-      startTime: DateTime.fromMillisecondsSinceEpoch(map['startTime'] as int),
-      title: map['title'] as String,
-      location: map['location'] as String,
-      organiserId: map['organiserId'] as String,
+    factory NewEvent.fromJson(Map<String, dynamic> json) => NewEvent(
+        id: json["id"],
+        description: json["description"],
+        startTime: DateTime.parse(json["startTime"]),
+        title: json["title"],
+        location: json["location"],
+        organizerId: json["organizerId"],
     );
-  }
 
-  String toJson() => json.encode(toMap());
-
-  factory NewEvent.fromJson(String source) => NewEvent.fromMap(json.decode(source) as Map<String, dynamic>);
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "description": description,
+        "startTime": startTime.toIso8601String(),
+        "title": title,
+        "location": location,
+        "organizerId": organizerId,
+    };
 }

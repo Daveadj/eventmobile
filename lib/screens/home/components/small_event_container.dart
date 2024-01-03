@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventmobile/models/event_models.dart';
+import 'package:eventmobile/models/events.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -7,7 +8,7 @@ import 'package:shimmer/shimmer.dart';
 class SmallEventContainer extends StatelessWidget {
   const SmallEventContainer({super.key, required this.event});
 
-  final Event event;
+  final NewEvent event;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,7 @@ class SmallEventContainer extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
-              imageUrl: event.image,
+              imageUrl:"https://wallsdesk.com/wp-content/uploads/2016/11/Party-full-HD.jpg",
               height: 140,
               width: 130,
               fit: BoxFit.cover,

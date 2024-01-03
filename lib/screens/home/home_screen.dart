@@ -234,7 +234,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   );
                                 },
                                 child: SmallEventContainer(
-                                  event: events[index],
+                                  event: newEvent[index],
                                 ),
                               ),
                             );

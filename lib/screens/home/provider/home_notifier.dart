@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/models/events.model.dart';
 import 'package:eventmobile/screens/Auth/provider/auth_notifier.dart';
@@ -24,8 +26,9 @@ class HomeNotifier extends ChangeNotifier {
       Log.i(response.body);
 
       if (response.statusCode == 200) {
-        List<Map<String, dynamic>> data = [];
-        _events = data.map((eventData) => NewEvent.fromMap(eventData)).toList();
+        List<dynamic> data = jsonDecode(response.body);
+        _events =
+            data.map((eventData) => NewEvent.fromJson(eventData)).toList();
         _recentEvents = _events.where(
           (event) {
             DateTime eventDate = event.startTime;
@@ -39,6 +42,7 @@ class HomeNotifier extends ChangeNotifier {
                 );
           },
         ).toList();
+        Log.i(_recentEvents.length.toString());
         Log.i('got all event');
         notifyListeners();
       } else if (response.statusCode == 400 || response.statusCode == 401) {
