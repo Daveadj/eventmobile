@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class SearchContainer extends StatelessWidget {
@@ -8,15 +6,15 @@ class SearchContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Container(
-        width: double.infinity,
+        width: 200,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey,
             width: 1.0,
           ),
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         child: const Row(
           children: [

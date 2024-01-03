@@ -5,6 +5,7 @@ import 'package:eventmobile/screens/home/components/small_event_container.dart';
 import 'package:eventmobile/screens/home/event_details_screen.dart';
 import 'package:eventmobile/screens/home/provider/home_notifier.dart';
 import 'package:eventmobile/screens/search/search_screen.dart';
+import 'package:eventmobile/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,18 +20,39 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isNavBarVisible = true;
+  String username = '';
 
   @override
   void initState() {
     ref.read(homeNotifierProvider).fetchEvent(context);
-
+    getUsername();
     super.initState();
+  }
+
+  Future<void> getUsername() async {
+    var result = await UserStorage.getUserName();
+    setState(() {
+      username = result!;
+    });
+  }
+
+  String getTimeOfDay() {
+    final currentTime = DateTime.now().hour;
+
+    if (currentTime < 12) {
+      return 'Morning';
+    } else if (currentTime < 17) {
+      return 'Afternoon';
+    } else {
+      return 'Evening';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     var newEvent = ref.watch(homeNotifierProvider).events;
     var recentEvents = ref.watch(homeNotifierProvider).recentEvents;
+    var day = getTimeOfDay();
     return Scaffold(
       extendBody: true,
       body: SafeArea(
@@ -47,19 +69,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             headerSliverBuilder: (context, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  collapsedHeight: recentEvents.isEmpty ? 70 : 330,
+                  collapsedHeight: recentEvents.isEmpty ? 83 : 330,
                   expandedHeight: recentEvents.isEmpty ? 0 : 330,
                   flexibleSpace: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          showSearch(
-                            context: context,
-                            delegate: MySearchDelegate(),
-                          );
-                        },
-                        child: const SearchContainer(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Good $day',
+                                  style: const TextStyle(
+                                    fontFamily: 'Lato',
+                                    fontSize: 15,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                                Text(
+                                  username,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                showSearch(
+                                  context: context,
+                                  delegate: MySearchDelegate(),
+                                );
+                              },
+                              child: const SearchContainer(),
+                            ),
+                            GestureDetector(
+                              onTap: () {},
+                              child: const Icon(
+                                Icons.add_circle_outline,
+                                size: 35,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 10,

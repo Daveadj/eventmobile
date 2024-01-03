@@ -54,6 +54,7 @@ class _ForgotPasswordState extends ConsumerState<ForgotPassword> {
                         child: const Icon(
                           Icons.arrow_back,
                           size: 30,
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 10),
