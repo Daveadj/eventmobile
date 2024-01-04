@@ -1,6 +1,7 @@
 import 'package:eventmobile/models/event_models.dart';
 import 'package:eventmobile/screens/home/components/large_event_container.dart';
 import 'package:eventmobile/screens/home/components/search_container.dart';
+import 'package:eventmobile/screens/home/components/shimmer_container.dart';
 import 'package:eventmobile/screens/home/components/small_event_container.dart';
 import 'package:eventmobile/screens/home/event_details_screen.dart';
 import 'package:eventmobile/screens/home/provider/home_notifier.dart';
@@ -21,10 +22,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   bool isNavBarVisible = true;
   String username = '';
-
+  late Future<void> allEventFuture;
   @override
   void initState() {
-    ref.read(homeNotifierProvider).fetchEvent(context);
+    allEventFuture = ref.read(homeNotifierProvider).fetchEvent(context);
     getUsername();
     super.initState();
   }
@@ -172,77 +173,100 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 )
               ];
             },
-            body: newEvent.isEmpty
-                ? const Center(
-                    child: Text(
-                      'No events',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  )
-                : Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            body: FutureBuilder(
+              future: allEventFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return ListView.builder(
+                    itemCount: 6,
+                    itemBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: ShimmerSmallEventContainer(),
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                } else {
+                  return (newEvent.isEmpty)
+                      ? const Center(
+                          child: Text(
+                            'No event',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                      : Column(
                           children: [
-                            const Text(
-                              'Events',
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    'Events',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  GestureDetector(
+                                    child: const Text(
+                                      'View all',
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                        fontFamily: 'Poppins',
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                            const Spacer(),
-                            GestureDetector(
-                              child: const Text(
-                                'View all',
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontFamily: 'Poppins',
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: newEvent.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 14),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (ctx) => EventDetails(
-                                        event: events[index],
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: newEvent.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 14),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (ctx) => EventDetails(
+                                              event: events[index],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: SmallEventContainer(
+                                        event: newEvent[index],
                                       ),
                                     ),
                                   );
                                 },
-                                child: SmallEventContainer(
-                                  event: newEvent[index],
-                                ),
                               ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
+                            )
+                          ],
+                        );
+                }
+              },
+            ),
           ),
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:eventmobile/screens/Auth/email_sent_dialog.dart';
 import 'package:eventmobile/screens/Auth/login_screen.dart';
 import 'package:eventmobile/screens/Auth/provider/auth_notifier.dart';
 import 'package:eventmobile/services/validator.dart';

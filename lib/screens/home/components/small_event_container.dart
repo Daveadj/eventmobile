@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:eventmobile/models/event_models.dart';
 import 'package:eventmobile/models/events.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -42,7 +41,8 @@ class SmallEventContainer extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
-              imageUrl:"https://wallsdesk.com/wp-content/uploads/2016/11/Party-full-HD.jpg",
+              imageUrl:
+                  "https://wallsdesk.com/wp-content/uploads/2016/11/Party-full-HD.jpg",
               height: 140,
               width: 130,
               fit: BoxFit.cover,
@@ -72,7 +72,7 @@ class SmallEventContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  event.description,
+                  event.title,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 13,
