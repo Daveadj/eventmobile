@@ -1,17 +1,18 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:eventmobile/screens/Auth/login_screen.dart';
+import 'package:eventmobile/screens/home/add_sample.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class CreateEvent extends StatefulWidget {
-  const CreateEvent({super.key});
-
+class AddEvent extends StatefulWidget {
+  const AddEvent({Key? key}) : super(key: key);
   @override
-  State<CreateEvent> createState() => _CreateEventState();
+  State<AddEvent> createState() => _AddEventState();
 }
 
-class _CreateEventState extends State<CreateEvent> {
-  PageController pageController = PageController();
-  late List<GlobalKey<FormState>> formKeys;
+class _AddEventState extends State<AddEvent> {
+  late GlobalKey<FormState> formKeys = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -20,128 +21,71 @@ class _CreateEventState extends State<CreateEvent> {
   TextEditingController availableSpaceController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController ticketNameController = TextEditingController();
-  int currentPage = 0;
-  double containerWidth = 200.0;
-  @override
-  void initState() {
-    super.initState();
-    // Initialize form keys for each page
-    formKeys = List.generate(2, (index) => GlobalKey<FormState>());
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Create Event',
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Create Event',
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            height: 10.0,
-            width: containerWidth,
-            color: Colors.blue,
-          ),
-          Expanded(
-            child: PageView(
-              controller: pageController,
-              onPageChanged: (int page) {
-                setState(() {
-                  currentPage = page;
-                  containerWidth =
-                      (page + 2) / 3.0 * MediaQuery.of(context).size.width;
-                });
-              },
-              children: [
-                EventDetailForm(
-                  pageIndex: 1,
-                  formKeys: formKeys,
-                  titleController: titleController,
-                  locationController: locationController,
-                  descriptionController: descriptionController,
-                  timeController: timeController,
-                  dateController: dateController,
-                  ticketNameController: ticketNameController,
-                  priceController: priceController,
-                  availableSpaceController: availableSpaceController,
+        body: Column(
+          children: [
+            const TabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelStyle: TextStyle(
+                fontFamily: 'lato',
+                fontSize: 17,
+              ),
+              tabs: [
+                Tab(
+                  text: 'Event Details',
                 ),
-                Container(),
+                Tab(
+                  text: 'Add Photo',
+                )
               ],
             ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  EventDetailedForm(
+                    formKeys: formKeys,
+                    titleController: titleController,
+                    locationController: locationController,
+                    descriptionController: descriptionController,
+                    timeController: timeController,
+                    dateController: dateController,
+                    ticketNameController: ticketNameController,
+                    priceController: priceController,
+                    availableSpaceController: availableSpaceController,
+                  ),
+                  Container()
+                ],
+              ),
+            )
+          ],
+        ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              if (formKeys.currentState!.validate()) {}
+            },
+            child: const Text('Create Event'),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: currentPage > 0
-                      ? () {
-                          if (currentPage > 0) {
-                            pageController.previousPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.ease,
-                            );
-                          }
-                        }
-                      : null,
-                  child: const Text('Previous'),
-                ),
-                Text('${currentPage + 1}/2'),
-                ElevatedButton(
-                  onPressed: () {
-                    if (formKeys[currentPage].currentState!.validate()) {
-                      if (currentPage < 1) {
-                        pageController.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease,
-                        );
-                      }
-                    }
-                  },
-                  child: Text(currentPage < 1 ? 'Next' : 'Save'),
-                ),
-              ],
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
 }
 
-Widget multiLineFormField(String label, TextEditingController controller,
-    String? Function(String? value) validator) {
-  return TextFormField(
-    validator: validator,
-    controller: controller,
-    keyboardType: TextInputType.multiline,
-    maxLines: 5,
-    style: const TextStyle(color: Colors.white),
-    decoration: InputDecoration(
-      hintStyle: const TextStyle(color: Colors.white),
-      label: Text(
-        label,
-        style: const TextStyle(color: Colors.white),
-      ),
-      labelStyle: const TextStyle(color: Colors.white),
-      hintText: 'Describe your Event',
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
-  );
-}
-
-class EventDetailForm extends StatelessWidget {
-  const EventDetailForm({
+class EventDetailedForm extends StatelessWidget {
+  const EventDetailedForm({
     super.key,
-    required this.pageIndex,
     required this.formKeys,
     required this.titleController,
     required this.locationController,
@@ -152,8 +96,8 @@ class EventDetailForm extends StatelessWidget {
     required this.priceController,
     required this.availableSpaceController,
   });
-  final int pageIndex;
-  final List<GlobalKey<FormState>> formKeys;
+
+  final GlobalKey<FormState> formKeys;
   final TextEditingController titleController;
   final TextEditingController locationController;
   final TextEditingController descriptionController;
@@ -199,7 +143,7 @@ class EventDetailForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: formKeys[pageIndex - 1],
+      key: formKeys,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -276,7 +220,15 @@ class EventDetailForm extends StatelessWidget {
             ],
           ),
           const Text('Ticket Details'),
+          InputFormField(
+            validator: (value) {},
+            label: 'Avalable Space',
+            hintText: 'Avalable Name',
+            obscureText: false,
+            controller: ticketNameController,
+          ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
                 width: 180,
@@ -302,13 +254,7 @@ class EventDetailForm extends StatelessWidget {
               )
             ],
           ),
-          InputFormField(
-            validator: (value) {},
-            label: 'Avalable Space',
-            hintText: 'Avalable Name',
-            obscureText: false,
-            controller: ticketNameController,
-          ),
+
           // Add more form fields as needed
         ],
       ),

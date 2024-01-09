@@ -221,6 +221,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 class InputFormField extends StatelessWidget {
   const InputFormField(
       {super.key,
+      this.ontap,
+      this.readonly,
       required this.validator,
       required this.label,
       required this.hintText,
@@ -237,11 +239,16 @@ class InputFormField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
+  final Function()? ontap;
+  final bool? readonly;
+
   final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        readOnly: readonly ?? false,
+        onTap: ontap,
         controller: controller,
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(color: Colors.white),
