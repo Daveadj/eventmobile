@@ -103,6 +103,29 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
+  Future<void> refreshAccessToken() async {
+    try {
+      Log.i('getting refreshToken');
+      final response =
+          await apiService.post('/Authentication/refreshToken', body: {});
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        final UserModel model = UserModel.fromMap(responseData);
+        final newToken = model.token;
+
+        // Update the token in storage
+        await UserStorage.setToken(newToken);
+        Log.i('Token refreshed successfully');
+      } else {
+        // Handle token refresh failure
+        Log.e('Token refresh failed: ${response.body}');
+      }
+    } catch (e) {
+      Log.e('Error during token refresh: $e');
+    }
+  }
+
   Future<void> resetPassword(BuildContext context, String email) async {
     final loader = Loader(context: context);
     Log.i('reset password');

@@ -1,4 +1,6 @@
 import 'package:eventmobile/models/event_models.dart';
+
+import 'package:eventmobile/screens/home/add_sample.dart';
 import 'package:eventmobile/screens/home/components/large_event_container.dart';
 import 'package:eventmobile/screens/home/components/search_container.dart';
 import 'package:eventmobile/screens/home/components/shimmer_container.dart';
@@ -112,7 +114,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: const SearchContainer(),
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) => const CreateEvent()));
+                              },
                               child: const Icon(
                                 Icons.add_circle_outline,
                                 size: 35,
