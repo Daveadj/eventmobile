@@ -251,17 +251,33 @@ class InputFormField extends StatelessWidget {
         onTap: ontap,
         controller: controller,
         keyboardType: TextInputType.emailAddress,
-        style: const TextStyle(color: Colors.white),
+        style: TextStyle(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.black
+              : Colors.white,
+        ),
         obscureText: obscureText,
         decoration: InputDecoration(
-          hintStyle: const TextStyle(color: Colors.white),
+          hintStyle: TextStyle(
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.black
+                : Colors.white,
+          ),
           prefixIcon: prefixIcon,
           label: Text(
             label,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Theme.of(context).brightness == Brightness.light
+                  ? Colors.black
+                  : Colors.white,
+            ),
           ),
           suffixIcon: suffixIcon,
-          labelStyle: const TextStyle(color: Colors.white),
+          labelStyle: TextStyle(
+            color: Theme.of(context).brightness == Brightness.light
+                ? Colors.black
+                : Colors.white,
+          ),
           hintText: hintText,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),

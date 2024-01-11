@@ -1,9 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:eventmobile/screens/Auth/login_screen.dart';
-import 'package:eventmobile/screens/home/add_sample.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:eventmobile/screens/home/components/eventdetailsform.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
@@ -63,19 +62,48 @@ class _AddEventState extends State<AddEvent> {
                     priceController: priceController,
                     availableSpaceController: availableSpaceController,
                   ),
-                  Container()
+                  const UploadPhotoScreem()
                 ],
               ),
             )
           ],
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () {
-              if (formKeys.currentState!.validate()) {}
-            },
-            child: const Text('Create Event'),
+        bottomNavigationBar: SizedBox(
+          width: double.infinity,
+          height: 80,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                minimumSize: const Size(double.infinity, 56),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(25),
+                    bottomRight: Radius.circular(25),
+                    bottomLeft: Radius.circular(25),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                if (formKeys.currentState!.validate()) {}
+              },
+              child: Text(
+                'Create Event',
+                style: TextStyle(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.black
+                      : Colors.white,
+                  fontFamily: 'Lato',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -83,181 +111,86 @@ class _AddEventState extends State<AddEvent> {
   }
 }
 
-class EventDetailedForm extends StatelessWidget {
-  const EventDetailedForm({
-    super.key,
-    required this.formKeys,
-    required this.titleController,
-    required this.locationController,
-    required this.descriptionController,
-    required this.timeController,
-    required this.dateController,
-    required this.ticketNameController,
-    required this.priceController,
-    required this.availableSpaceController,
-  });
-
-  final GlobalKey<FormState> formKeys;
-  final TextEditingController titleController;
-  final TextEditingController locationController;
-  final TextEditingController descriptionController;
-  final TextEditingController timeController;
-  final TextEditingController dateController;
-  final TextEditingController ticketNameController;
-  final TextEditingController priceController;
-  final TextEditingController availableSpaceController;
-  String? titleValidator(String? value) {
-    if (value!.isEmpty) {
-      return 'Enter Title';
-    } else if (value.length < 5 || value.length > 20) {
-      return 'Title Length should be between 5 to 20 characters';
-    } else {
-      return null;
-    }
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    );
-
-    if (pickedDate != null && pickedDate != dateController.text) {
-      dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-    }
-  }
-
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-
-    if (pickedTime != null) {
-      timeController.text = pickedTime.format(context);
-    }
-  }
+class UploadPhotoScreem extends StatefulWidget {
+  const UploadPhotoScreem({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKeys,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Event details',
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 180,
-                child: InputFormField(
-                  validator: titleValidator,
-                  label: 'Event Name',
-                  hintText: 'Event Name',
-                  obscureText: false,
-                  controller: titleController,
-                ),
-              ),
-              SizedBox(
-                width: 180,
-                child: InputFormField(
-                  validator: titleValidator,
-                  label: 'Event Name',
-                  hintText: 'Event Name',
-                  obscureText: false,
-                  controller: titleController,
-                ),
-              )
-            ],
-          ),
-          multiLineFormField(
-            'Describe your Event',
-            descriptionController,
-            titleValidator,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 180,
-                child: InputFormField(
-                  validator: titleValidator,
-                  label: 'Event Date',
-                  hintText: 'Event Date',
-                  ontap: () {
-                    _selectDate(context);
-                  },
-                  readonly: true,
-                  obscureText: false,
-                  suffixIcon: const Icon(
-                    Icons.calendar_month,
-                  ),
-                  controller: dateController,
-                ),
-              ),
-              SizedBox(
-                width: 180,
-                child: InputFormField(
-                  validator: titleValidator,
-                  label: 'Event Time',
-                  hintText: 'Event Time',
-                  ontap: () {
-                    _selectTime(context);
-                  },
-                  readonly: true,
-                  obscureText: false,
-                  suffixIcon: const Icon(
-                    Icons.alarm,
-                  ),
-                  controller: timeController,
-                ),
-              )
-            ],
-          ),
-          const Text('Ticket Details'),
-          InputFormField(
-            validator: (value) {},
-            label: 'Avalable Space',
-            hintText: 'Avalable Name',
-            obscureText: false,
-            controller: ticketNameController,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 180,
-                child: InputFormField(
-                  validator: (value) {},
-                  label: 'Ticket Type',
-                  hintText: 'Ticket Type',
-                  obscureText: false,
-                  controller: availableSpaceController,
-                ),
-              ),
-              SizedBox(
-                width: 180,
-                child: InputFormField(
-                  validator: (value) {},
-                  label: 'Event Time',
-                  hintText: 'Event Time',
-                  ontap: () {},
-                  readonly: true,
-                  obscureText: false,
-                  controller: priceController,
-                ),
-              )
-            ],
-          ),
+  State<UploadPhotoScreem> createState() => _UploadPhotoScreemState();
+}
 
-          // Add more form fields as needed
-        ],
-      ),
+class _UploadPhotoScreemState extends State<UploadPhotoScreem> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        DottedBorder(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.black
+              : Colors.white,
+          strokeWidth: 1,
+          borderType: BorderType.Rect,
+          dashPattern: const [8, 8],
+          child: const SizedBox(
+            height: 250,
+            width: 350,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.cloud_upload,
+                    size: 100,
+                  ),
+                  Text(
+                    'Upload your file',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: 250,
+          child: ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+              backgroundColor: Colors.blue,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.photo_library,
+                  size: 24.0,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? Colors.black
+                      : Colors.white,
+                ),
+                const SizedBox(width: 8.0),
+                Text(
+                  'Upload',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
