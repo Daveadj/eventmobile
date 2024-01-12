@@ -1,3 +1,4 @@
+import 'package:eventmobile/logging.dart';
 
 class Validator {
   static String? emailValidator(String value) {
@@ -51,6 +52,18 @@ class Validator {
       return 'Name Length should be between 2 to 15 characters';
     } else if (value.contains(RegExp(r'\s'))) {
       return 'name must not contain white spaces';
+    } else {
+      return null;
+    }
+  }
+
+  static String? titleValidator(
+      String? value, int lessthan, int greaterthan, String label) {
+    if (value!.isEmpty) {
+      Log.i(value);
+      return 'Enter $label';
+    } else if (value.length < lessthan || value.length > greaterthan) {
+      return 'Title Length should be between $lessthan to $greaterthan characters';
     } else {
       return null;
     }

@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:eventmobile/screens/Auth/login_screen.dart';
-import 'package:eventmobile/screens/home/add_sample.dart';
+import 'package:eventmobile/services/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,7 +16,6 @@ class EventDetailedForm extends StatelessWidget {
     required this.dateController,
     required this.ticketNameController,
     required this.priceController,
-    required this.availableSpaceController,
   });
 
   final GlobalKey<FormState> formKeys;
@@ -27,16 +26,6 @@ class EventDetailedForm extends StatelessWidget {
   final TextEditingController dateController;
   final TextEditingController ticketNameController;
   final TextEditingController priceController;
-  final TextEditingController availableSpaceController;
-  String? titleValidator(String? value) {
-    if (value!.isEmpty) {
-      return 'Enter Title';
-    } else if (value.length < 5 || value.length > 20) {
-      return 'Title Length should be between 5 to 20 characters';
-    } else {
-      return null;
-    }
-  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -68,12 +57,20 @@ class EventDetailedForm extends StatelessWidget {
       key: formKeys,
       child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
                 'Event details',
+                style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 20,
+                ),
+              ),
+
+              const SizedBox(
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +78,10 @@ class EventDetailedForm extends StatelessWidget {
                   SizedBox(
                     width: 180,
                     child: InputFormField(
-                      validator: titleValidator,
+                      validator: (String? value) {
+                        return Validator.titleValidator(
+                            value!, 5, 20, 'Event Name');
+                      },
                       label: 'Event Name',
                       hintText: 'Event Name',
                       obscureText: false,
@@ -89,26 +89,41 @@ class EventDetailedForm extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: 180,
+                    width: 250,
                     child: InputFormField(
-                      validator: titleValidator,
-                      label: 'Event Name',
-                      hintText: 'Event Name',
+                      validator: (String? value) {
+                        return Validator.titleValidator(
+                            value!, 3, 25, 'Event Location');
+                      },
+                      label: 'Event Location',
+                      hintText: 'Event Location',
                       obscureText: false,
-                      controller: titleController,
+                      controller: locationController,
                     ),
                   )
                 ],
               ),
+              const SizedBox(
+                height: 20,
+              ),
               multiLineFormField('Describe your Event', descriptionController,
-                  titleValidator, context),
+                  (String? value) {
+                return Validator.titleValidator(
+                    value!, 20, 50, 'Event Description');
+              }, context),
+              const SizedBox(
+                height: 20,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
                     width: 180,
                     child: InputFormField(
-                      validator: titleValidator,
+                      validator: (String? value) {
+                        return Validator.titleValidator(
+                            value!, 3, 20, 'Event Date');
+                      },
                       label: 'Event Date',
                       hintText: 'Event Date',
                       ontap: () {
@@ -125,7 +140,10 @@ class EventDetailedForm extends StatelessWidget {
                   SizedBox(
                     width: 180,
                     child: InputFormField(
-                      validator: titleValidator,
+                      validator: (String? value) {
+                        return Validator.titleValidator(
+                            value!, 3, 20, 'Event Time');
+                      },
                       label: 'Event Time',
                       hintText: 'Event Time',
                       ontap: () {
@@ -141,13 +159,19 @@ class EventDetailedForm extends StatelessWidget {
                   )
                 ],
               ),
-              const Text('Ticket Details'),
-              InputFormField(
-                validator: (value) {},
-                label: 'Avalable Space',
-                hintText: 'Avalable Name',
-                obscureText: false,
-                controller: ticketNameController,
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Ticket Details',
+                style: TextStyle(
+                  fontFamily: 'Lato',
+                  fontSize: 20,
+                ),
+              ),
+
+              const SizedBox(
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,17 +179,22 @@ class EventDetailedForm extends StatelessWidget {
                   SizedBox(
                     width: 180,
                     child: InputFormField(
-                      validator: (value) {},
+                      validator: (String? value) {
+                        return Validator.titleValidator(
+                            value!, 2, 10, 'Ticket Type');
+                      },
                       label: 'Ticket Type',
                       hintText: 'Ticket Type',
                       obscureText: false,
-                      controller: availableSpaceController,
+                      controller: ticketNameController,
                     ),
                   ),
                   SizedBox(
                     width: 180,
                     child: InputFormField(
-                      validator: (value) {},
+                      validator: (String? value) {
+                        return Validator.titleValidator(value!, 1, 20, 'Price');
+                      },
                       label: 'Price',
                       hintText: 'Price',
                       obscureText: false,
@@ -182,4 +211,43 @@ class EventDetailedForm extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget multiLineFormField(String label, TextEditingController controller,
+    String? Function(String? value) validator, BuildContext context) {
+  return TextFormField(
+    validator: validator,
+    controller: controller,
+    keyboardType: TextInputType.multiline,
+    maxLines: 5,
+    style: TextStyle(
+      color: Theme.of(context).brightness == Brightness.light
+          ? Colors.black
+          : Colors.white,
+    ),
+    decoration: InputDecoration(
+      hintStyle: TextStyle(
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
+      ),
+      label: Text(
+        label,
+        style: TextStyle(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.black
+              : Colors.white,
+        ),
+      ),
+      labelStyle: TextStyle(
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
+      ),
+      hintText: 'Describe your Event',
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
+  );
 }

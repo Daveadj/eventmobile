@@ -1,8 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:dotted_border/dotted_border.dart';
-import 'package:eventmobile/screens/home/components/eventdetailsform.dart';
+import 'dart:io';
+
+import 'package:eventmobile/screens/home/components/upload_photo.dart';
+import 'package:eventmobile/services/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'package:eventmobile/screens/home/components/eventdetailsform.dart';
 
 class AddEvent extends StatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
@@ -17,9 +23,21 @@ class _AddEventState extends State<AddEvent> {
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController availableSpaceController = TextEditingController();
+
   TextEditingController priceController = TextEditingController();
   TextEditingController ticketNameController = TextEditingController();
+  File? image;
+
+  Future pickImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (image == null) return;
+    final imageTemporary = File(image.path);
+    setState(() {
+      this.image = imageTemporary;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -60,9 +78,13 @@ class _AddEventState extends State<AddEvent> {
                     dateController: dateController,
                     ticketNameController: ticketNameController,
                     priceController: priceController,
-                    availableSpaceController: availableSpaceController,
                   ),
-                  const UploadPhotoScreem()
+                  UploadPhotoScreen(
+                    pickImageCallback: () {
+                      pickImage();
+                    },
+                    image: image,
+                  )
                 ],
               ),
             )
@@ -90,7 +112,13 @@ class _AddEventState extends State<AddEvent> {
                 ),
               ),
               onPressed: () {
-                if (formKeys.currentState!.validate()) {}
+                if (formKeys.currentState!.validate() && image != null) {
+                } else {
+                  SnackBarHelper.showErrorSnackBar(
+                      context,
+                      'fill in all required details and upload your image',
+                      false);
+                }
               },
               child: Text(
                 'Create Event',
@@ -107,90 +135,6 @@ class _AddEventState extends State<AddEvent> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class UploadPhotoScreem extends StatefulWidget {
-  const UploadPhotoScreem({super.key});
-
-  @override
-  State<UploadPhotoScreem> createState() => _UploadPhotoScreemState();
-}
-
-class _UploadPhotoScreemState extends State<UploadPhotoScreem> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        DottedBorder(
-          color: Theme.of(context).brightness == Brightness.light
-              ? Colors.black
-              : Colors.white,
-          strokeWidth: 1,
-          borderType: BorderType.Rect,
-          dashPattern: const [8, 8],
-          child: const SizedBox(
-            height: 250,
-            width: 350,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.cloud_upload,
-                    size: 100,
-                  ),
-                  Text(
-                    'Upload your file',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        SizedBox(
-          width: 250,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-              backgroundColor: Colors.blue,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.photo_library,
-                  size: 24.0,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
-                ),
-                const SizedBox(width: 8.0),
-                Text(
-                  'Upload',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        )
-      ],
     );
   }
 }

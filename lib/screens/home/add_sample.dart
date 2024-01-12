@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:eventmobile/screens/Auth/login_screen.dart';
+import 'package:eventmobile/screens/home/components/eventdetailsform.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -117,44 +118,6 @@ class _CreateEventState extends State<CreateEvent> {
   }
 }
 
-Widget multiLineFormField(String label, TextEditingController controller,
-    String? Function(String? value) validator, BuildContext context) {
-  return TextFormField(
-    validator: validator,
-    controller: controller,
-    keyboardType: TextInputType.multiline,
-    maxLines: 5,
-    style: TextStyle(
-      color: Theme.of(context).brightness == Brightness.light
-          ? Colors.black
-          : Colors.white,
-    ),
-    decoration: InputDecoration(
-      hintStyle: TextStyle(
-        color: Theme.of(context).brightness == Brightness.light
-            ? Colors.black
-            : Colors.white,
-      ),
-      label: Text(
-        label,
-        style: TextStyle(
-          color: Theme.of(context).brightness == Brightness.light
-              ? Colors.black
-              : Colors.white,
-        ),
-      ),
-      labelStyle: TextStyle(
-        color: Theme.of(context).brightness == Brightness.light
-            ? Colors.black
-            : Colors.white,
-      ),
-      hintText: 'Describe your Event',
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
-  );
-}
 
 class EventDetailForm extends StatelessWidget {
   const EventDetailForm({
