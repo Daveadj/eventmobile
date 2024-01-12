@@ -3,6 +3,7 @@ import 'package:eventmobile/screens/Auth/forgot_password_screen.dart';
 import 'package:eventmobile/screens/onboarding.dart';
 import 'package:eventmobile/services/validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -230,7 +231,8 @@ class InputFormField extends StatelessWidget {
       required this.obscureText,
       this.suffixIcon,
       this.prefixIcon,
-      required this.controller});
+      required this.controller,
+      this.textInputFormatter, this.enable});
 
   final String? Function(String? value) validator;
   final String label;
@@ -241,48 +243,53 @@ class InputFormField extends StatelessWidget {
   final Widget? prefixIcon;
   final Function()? ontap;
   final bool? readonly;
+  final List<TextInputFormatter>? textInputFormatter;
+  final bool? enable;
 
   final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        readOnly: readonly ?? false,
-        onTap: ontap,
-        controller: controller,
-        keyboardType: TextInputType.emailAddress,
-        style: TextStyle(
+      readOnly: readonly ?? false,
+      onTap: ontap,
+      controller: controller,
+      keyboardType: textInputType ?? TextInputType.emailAddress,
+      style: TextStyle(
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.black
+            : Colors.white,
+      ),
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        hintStyle: TextStyle(
           color: Theme.of(context).brightness == Brightness.light
               ? Colors.black
               : Colors.white,
         ),
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          hintStyle: TextStyle(
+        prefixIcon: prefixIcon,
+        label: Text(
+          label,
+          style: TextStyle(
             color: Theme.of(context).brightness == Brightness.light
                 ? Colors.black
                 : Colors.white,
-          ),
-          prefixIcon: prefixIcon,
-          label: Text(
-            label,
-            style: TextStyle(
-              color: Theme.of(context).brightness == Brightness.light
-                  ? Colors.black
-                  : Colors.white,
-            ),
-          ),
-          suffixIcon: suffixIcon,
-          labelStyle: TextStyle(
-            color: Theme.of(context).brightness == Brightness.light
-                ? Colors.black
-                : Colors.white,
-          ),
-          hintText: hintText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
           ),
         ),
-        validator: validator);
+        suffixIcon: suffixIcon,
+        labelStyle: TextStyle(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.black
+              : Colors.white,
+        ),
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      validator: validator,
+      inputFormatters: textInputFormatter,
+      enabled: enable,
+    );
   }
 }

@@ -27,6 +27,7 @@ class _AddEventState extends State<AddEvent> {
   TextEditingController priceController = TextEditingController();
   TextEditingController ticketNameController = TextEditingController();
   File? image;
+  String? selectedTicketType;
 
   Future pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -70,6 +71,11 @@ class _AddEventState extends State<AddEvent> {
               child: TabBarView(
                 children: [
                   EventDetailedForm(
+                    onTicketTypeChanged: (String? ticketType) {
+                      setState(() {
+                        selectedTicketType = ticketType;
+                      });
+                    },
                     formKeys: formKeys,
                     titleController: titleController,
                     locationController: locationController,
@@ -112,7 +118,9 @@ class _AddEventState extends State<AddEvent> {
                 ),
               ),
               onPressed: () {
-                if (formKeys.currentState!.validate() && image != null) {
+                if (formKeys.currentState!.validate() &&
+                    image != null &&
+                    selectedTicketType != null) {
                 } else {
                   SnackBarHelper.showErrorSnackBar(
                       context,

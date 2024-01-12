@@ -63,7 +63,7 @@ class Validator {
       Log.i(value);
       return 'Enter $label';
     } else if (value.length < lessthan || value.length > greaterthan) {
-      return 'Title Length should be between $lessthan to $greaterthan characters';
+      return 'Between $lessthan to $greaterthan characters';
     } else {
       return null;
     }

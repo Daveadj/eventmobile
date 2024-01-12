@@ -3,6 +3,7 @@
 import 'package:eventmobile/screens/Auth/login_screen.dart';
 import 'package:eventmobile/services/validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class EventDetailedForm extends StatelessWidget {
@@ -16,6 +17,7 @@ class EventDetailedForm extends StatelessWidget {
     required this.dateController,
     required this.ticketNameController,
     required this.priceController,
+    required this.onTicketTypeChanged,
   });
 
   final GlobalKey<FormState> formKeys;
@@ -26,6 +28,7 @@ class EventDetailedForm extends StatelessWidget {
   final TextEditingController dateController;
   final TextEditingController ticketNameController;
   final TextEditingController priceController;
+  final Function(String? ticketType) onTicketTypeChanged;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -53,8 +56,10 @@ class EventDetailedForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? selectedTicketType;
     return Form(
       key: formKeys,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 8.0),
@@ -178,15 +183,29 @@ class EventDetailedForm extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 180,
-                    child: InputFormField(
-                      validator: (String? value) {
-                        return Validator.titleValidator(
-                            value!, 2, 10, 'Ticket Type');
+                    child: DropdownButtonFormField<String>(
+                      value: selectedTicketType,
+                      onChanged: (String? newValue) {
+                        selectedTicketType = newValue;
+                        onTicketTypeChanged(selectedTicketType);
+                        if (selectedTicketType == 'Free') {
+                          priceController.text = '0.0';
+                        } else if (selectedTicketType == null) {
+                          priceController.text = 'Select Ticket Type';
+                        } else {
+                          priceController.text = '';
+                        }
                       },
-                      label: 'Ticket Type',
-                      hintText: 'Ticket Type',
-                      obscureText: false,
-                      controller: ticketNameController,
+                      items: [null, 'Free', 'Paid']
+                          .map<DropdownMenuItem<String>>((String? value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value ?? 'Select Ticket Type'),
+                        );
+                      }).toList(),
+                      decoration: const InputDecoration(
+                        labelText: 'Ticket Type',
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -199,6 +218,14 @@ class EventDetailedForm extends StatelessWidget {
                       hintText: 'Price',
                       obscureText: false,
                       controller: priceController,
+                      textInputType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      textInputFormatter: [
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d*\.?\d{0,2}$')),
+                      ],
+                      readonly: priceController.text == '0.0' ||
+                          priceController.text == 'Select Ticket Type',
                     ),
                   )
                 ],
