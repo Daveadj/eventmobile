@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:eventmobile/models/event_models.dart';
+import 'package:eventmobile/models/events.model.dart';
 import 'package:eventmobile/models/ticket_models.dart';
 
 import 'package:eventmobile/screens/home/comment_screen.dart';
 import 'package:eventmobile/screens/home/components/location_widget.dart';
 import 'package:eventmobile/screens/home/components/ticket_option_tile.dart';
 import 'package:eventmobile/screens/profile/other_users_profile_screen.dart';
+import 'package:eventmobile/screens/search/search_screen.dart';
 import 'package:eventmobile/screens/ticket/ticket_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,7 +15,7 @@ import 'package:shimmer/shimmer.dart';
 class EventDetails extends StatefulWidget {
   const EventDetails({super.key, required this.event});
 
-  final Event event;
+  final NewEvent event;
 
   @override
   State<EventDetails> createState() => _EventDetailsState();
@@ -59,7 +60,7 @@ class _EventDetailsState extends State<EventDetails> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: CachedNetworkImage(
-                      imageUrl: widget.event.image,
+                      imageUrl: widget.event.photos[0].url,
                       width: double.infinity,
                       height: 320,
                       fit: BoxFit.cover,
@@ -70,8 +71,14 @@ class _EventDetailsState extends State<EventDetails> {
                           color: Colors.white, // Shimmer effect color
                         ),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      errorWidget: (context, url, error) => Container(
+                        width: 30,
+                        height: 30,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -81,7 +88,7 @@ class _EventDetailsState extends State<EventDetails> {
                 child: Row(
                   children: [
                     Text(
-                      widget.event.description,
+                      widget.event.title,
                       style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
@@ -148,9 +155,9 @@ class _EventDetailsState extends State<EventDetails> {
                           ),
                         );
                       },
-                      child: const Text(
-                        'PostMalone',
-                        style: TextStyle(
+                      child:Text(
+                       widget.event.organizerName ,
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -170,11 +177,11 @@ class _EventDetailsState extends State<EventDetails> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+               Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Post Malone will at the hmv Underground at 333 Yonge Street on March 24, 2015 at 5:00 PM for an exclusive FAN MEET & GREET. Space is limited to the first 300 fans on a first come first served basis (as per the event protocol)',
-                  style: TextStyle(
+                  widget.event.description,
+                  style: const TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 15,
                   ),
@@ -211,18 +218,18 @@ class _EventDetailsState extends State<EventDetails> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    const LocationWidget(),
+                    LocationWidget(location: widget.event.location,),
                     ListView.builder(
-                      itemCount: ticketOptions.length,
+                      itemCount: widget.event.tickets.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => TicketScreen(),
+                              builder: (context) => const TicketScreen(),
                             ));
                           },
                           child: TicketOptionTile(
-                            ticketOption: ticketOptions[index],
+                            ticket: widget.event.tickets[index],
                           ),
                         );
                       },

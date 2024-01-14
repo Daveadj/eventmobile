@@ -3,20 +3,26 @@
 
 import 'dart:io';
 
+import 'package:eventmobile/models/create_event_model.dart';
+import 'package:eventmobile/screens/home/add_sample.dart';
 import 'package:eventmobile/screens/home/components/upload_photo.dart';
+import 'package:eventmobile/screens/home/provider/home_notifier.dart';
 import 'package:eventmobile/services/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:eventmobile/screens/home/components/eventdetailsform.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-class AddEvent extends StatefulWidget {
+class AddEvent extends ConsumerStatefulWidget {
   const AddEvent({Key? key}) : super(key: key);
   @override
-  State<AddEvent> createState() => _AddEventState();
+  ConsumerState<AddEvent> createState() => _AddEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _AddEventState extends ConsumerState<AddEvent> {
   late GlobalKey<FormState> formKeys = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -37,6 +43,14 @@ class _AddEventState extends State<AddEvent> {
     setState(() {
       this.image = imageTemporary;
     });
+  }
+
+  DateTime parseDateTime(String dateString, String timeString) {
+    String combinedString = '$dateString $timeString';
+
+    DateTime dateTime = DateFormat('yyyy-MM-dd h:mm a').parse(combinedString);
+
+    return dateTime;
   }
 
   @override
@@ -74,6 +88,7 @@ class _AddEventState extends State<AddEvent> {
                     onTicketTypeChanged: (String? ticketType) {
                       setState(() {
                         selectedTicketType = ticketType;
+                        ticketNameController.text = selectedTicketType ?? '';
                       });
                     },
                     formKeys: formKeys,
@@ -117,14 +132,31 @@ class _AddEventState extends State<AddEvent> {
                   ),
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (formKeys.currentState!.validate() &&
                     image != null &&
                     selectedTicketType != null) {
+                  final date =
+                      parseDateTime(dateController.text, timeController.text);
+                  final eventDetails = CreateEventClass(
+                    description: descriptionController.text,
+                    startTime: date,
+                    title: titleController.text,
+                    location: locationController.text,
+                  );
+                  final ticket = CreateTicket(
+                      ticketName: ticketNameController.text,
+                      price: priceController.text);
+                  await ref.read(homeNotifierProvider.notifier).createEvent(
+                        context,
+                        eventDetails,
+                        ticket,
+                        image!,
+                      );
                 } else {
                   SnackBarHelper.showErrorSnackBar(
                       context,
-                      'fill in all required details and upload your image',
+                      'fill in all required details,select ticke type and upload your image',
                       false);
                 }
               },

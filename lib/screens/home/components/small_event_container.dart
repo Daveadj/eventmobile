@@ -42,7 +42,7 @@ class SmallEventContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
               imageUrl:
-                  "https://wallsdesk.com/wp-content/uploads/2016/11/Party-full-HD.jpg",
+                 event.photos[0].url,
               height: 140,
               width: 130,
               fit: BoxFit.cover,
@@ -53,7 +53,14 @@ class SmallEventContainer extends StatelessWidget {
                   color: Colors.white, // Shimmer effect color
                 ),
               ),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              errorWidget: (context, url, error) => Container(
+                width: 30,
+                height: 30,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+              ),
             ),
           ),
           Container(
@@ -94,9 +101,9 @@ class SmallEventContainer extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Text(
-                  "Free",
-                  style: TextStyle(
+                Text(
+                  event.tickets[0].ticketName,
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 13,
                     fontWeight: FontWeight.bold,

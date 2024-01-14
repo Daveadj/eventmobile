@@ -14,8 +14,6 @@ class UploadPhotoScreen extends StatelessWidget {
     required this.pickImageCallback,
   }) : super(key: key);
 
- 
-
   @override
   Widget build(BuildContext context) {
     return Column(

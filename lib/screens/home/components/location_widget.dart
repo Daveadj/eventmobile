@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LocationWidget extends StatelessWidget {
+  final String location;
   const LocationWidget({
     super.key,
+    required this.location,
   });
 
   @override
@@ -20,24 +22,24 @@ class LocationWidget extends StatelessWidget {
             ),
           ),
         ),
-        const Positioned(
+         Positioned(
           bottom: 0,
           left: 0,
           right: 0,
           child: Center(
             child: Column(
               children: [
-                Icon(
+                const Icon(
                   Icons.location_on,
                   size: 60,
                   color: Colors.red,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 7,
                 ),
                 Text(
-                  'New York city',
-                  style: TextStyle(
+                  location,
+                  style: const TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 20,
                     fontWeight: FontWeight.bold,

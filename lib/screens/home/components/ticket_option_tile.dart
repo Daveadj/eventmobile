@@ -1,18 +1,18 @@
 
 
-import 'package:eventmobile/models/ticket_models.dart';
+import 'package:eventmobile/models/events.model.dart';
 import 'package:flutter/material.dart';
 
 class TicketOptionTile extends StatelessWidget {
-  final TicketOption ticketOption;
+  final Ticket ticket;
 
-  const TicketOptionTile({super.key, required this.ticketOption});
+  const TicketOptionTile({super.key, required this.ticket});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(ticketOption.name),
-      subtitle: Text('\$${ticketOption.price.toStringAsFixed(2)}'),
+      title: Text(ticket.ticketName),
+      subtitle: Text('\$${ticket.price.toStringAsFixed(2)}'),
       trailing: const Icon(
         Icons.arrow_forward_ios,
       ),

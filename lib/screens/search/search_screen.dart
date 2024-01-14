@@ -1,6 +1,4 @@
 import 'package:eventmobile/models/event_models.dart';
-import 'package:eventmobile/screens/home/components/large_event_container.dart';
-import 'package:eventmobile/screens/home/event_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class MySearchDelegate extends SearchDelegate {
@@ -25,41 +23,42 @@ class MySearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    try {
-      var matchingEvents = events.where(
-        (element) => element.description.toLowerCase() == query.toLowerCase(),
-      );
+    return Container();
+    // try {
+    //   var matchingEvents = events.where(
+    //     (element) => element.description.toLowerCase() == query.toLowerCase(),
+    //   );
 
-      if (matchingEvents.isNotEmpty) {
-        var event = matchingEvents.first;
+    //   if (matchingEvents.isNotEmpty) {
+    //     var event = matchingEvents.first;
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (ctx) => EventDetails(
-                    event: event,
-                  ),
-                ),
-              );
-            },
-            child: LargeEventContainer(
-              event: event,
-            ),
-          ),
-        );
-      } else {
-        return Center(
-          child: Text('No matching events found for "$query"'),
-        );
-      }
-    } catch (e) {
-      return Center(
-        child: Text('Error: ${e.toString()}'),
-      );
-    }
+    //     return Padding(
+    //       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+    //       child: GestureDetector(
+    //         onTap: () {
+    //           Navigator.of(context).push(
+    //             MaterialPageRoute(
+    //               builder: (ctx) => EventDetails(
+    //                 event: event,
+    //               ),
+    //             ),
+    //           );
+    //         },
+    //         child: LargeEventContainer(
+    //           event: event,
+    //         ),
+    //       ),
+    //     );
+    //   } else {
+    //     return Center(
+    //       child: Text('No matching events found for "$query"'),
+    //     );
+    //   }
+    // } catch (e) {
+    //   return Center(
+    //     child: Text('Error: ${e.toString()}'),
+    //   );
+    // }
   }
 
   @override

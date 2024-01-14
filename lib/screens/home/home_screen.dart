@@ -160,7 +160,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (ctx) => EventDetails(
-                                              event: events[index],
+                                              event: newEvent[index],
                                             ),
                                           ),
                                         );
@@ -254,7 +254,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (ctx) => EventDetails(
-                                              event: events[index],
+                                              event: newEvent[index],
                                             ),
                                           ),
                                         );

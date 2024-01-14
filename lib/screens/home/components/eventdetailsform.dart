@@ -187,6 +187,7 @@ class EventDetailedForm extends StatelessWidget {
                       value: selectedTicketType,
                       onChanged: (String? newValue) {
                         selectedTicketType = newValue;
+                        
                         onTicketTypeChanged(selectedTicketType);
                         if (selectedTicketType == 'Free') {
                           priceController.text = '0.0';
