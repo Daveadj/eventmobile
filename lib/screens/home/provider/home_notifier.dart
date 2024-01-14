@@ -43,14 +43,13 @@ class HomeNotifier extends ChangeNotifier {
             DateTime eventDate = event.startTime;
             DateTime currentDate = DateTime.now();
 
-            return eventDate.isAfter(currentDate) &&
-                eventDate.isBefore(
-                  currentDate.add(
-                    const Duration(days: 10),
-                  ),
-                );
+            // Change the condition to filter events for today
+            return eventDate.year == currentDate.year &&
+                eventDate.month == currentDate.month &&
+                eventDate.day == currentDate.day;
           },
         ).toList();
+         Log.i(_recentEvents.length.toString());
         Log.i('got all event');
         notifyListeners();
       } else if (response.statusCode == 403 || response.statusCode == 401) {

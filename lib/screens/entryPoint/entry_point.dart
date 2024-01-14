@@ -1,7 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:eventmobile/screens/home/home_screen.dart';
 import 'package:eventmobile/screens/profile/other_users_profile_screen.dart';
-import 'package:eventmobile/screens/search/search_screen.dart';
 import 'package:eventmobile/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

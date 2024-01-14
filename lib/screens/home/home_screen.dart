@@ -1,5 +1,3 @@
-import 'package:eventmobile/models/event_models.dart';
-
 import 'package:eventmobile/screens/home/components/large_event_container.dart';
 import 'package:eventmobile/screens/home/components/search_container.dart';
 import 'package:eventmobile/screens/home/components/shimmer_container.dart';
@@ -49,6 +47,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     } else {
       return 'Evening';
     }
+  }
+
+  Future<void> _refresh() async {
+    await ref.read(homeNotifierProvider).fetchEvent(context);
   }
 
   @override
@@ -134,7 +136,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           : const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 8),
                               child: Text(
-                                "Recent Events",
+                                "Today's Events",
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 17,
@@ -151,7 +153,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: List.generate(
-                                  events.length,
+                                  recentEvents.length,
                                   (index) => Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 8),
@@ -160,13 +162,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (ctx) => EventDetails(
-                                              event: newEvent[index],
+                                              event: recentEvents[index],
                                             ),
                                           ),
                                         );
                                       },
                                       child: LargeEventContainer(
-                                        event: events[index],
+                                        event: recentEvents[index],
                                       ),
                                     ),
                                   ),
@@ -178,99 +180,69 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 )
               ];
             },
-            body: FutureBuilder(
-              future: allEventFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return ListView.builder(
-                    itemCount: 6,
-                    itemBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: ShimmerSmallEventContainer(),
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('${snapshot.error}'),
-                  );
-                } else {
-                  return (newEvent.isEmpty)
-                      ? const Center(
-                          child: Text(
-                            'No event',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        )
-                      : Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    'Events',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  GestureDetector(
-                                    child: const Text(
-                                      'View all',
-                                      style: TextStyle(
-                                        color: Colors.green,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount: newEvent.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 14),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (ctx) => EventDetails(
-                                              event: newEvent[index],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: SmallEventContainer(
-                                        event: newEvent[index],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          ],
+            body: RefreshIndicator(
+              onRefresh: _refresh,
+              child: FutureBuilder(
+                future: allEventFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return ListView.builder(
+                      itemCount: 6,
+                      itemBuilder: (context, index) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: ShimmerSmallEventContainer(),
                         );
-                }
-              },
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('${snapshot.error}'),
+                    );
+                  } else {
+                    return (newEvent.isEmpty)
+                        ? const Center(
+                            child: Text(
+                              'No event',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: newEvent.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 14),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (ctx) => EventDetails(
+                                                event: newEvent[index],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: SmallEventContainer(
+                                          event: newEvent[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )
+                            ],
+                          );
+                  }
+                },
+              ),
             ),
           ),
         ),

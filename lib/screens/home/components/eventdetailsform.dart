@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unrelated_type_equality_checks
 
 import 'package:eventmobile/screens/Auth/login_screen.dart';
 import 'package:eventmobile/services/validator.dart';
@@ -94,11 +94,11 @@ class EventDetailedForm extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: 250,
+                    width: 180,
                     child: InputFormField(
                       validator: (String? value) {
                         return Validator.titleValidator(
-                            value!, 3, 25, 'Event Location');
+                            value!, 3, 30, 'Event Location');
                       },
                       label: 'Event Location',
                       hintText: 'Event Location',
@@ -114,7 +114,7 @@ class EventDetailedForm extends StatelessWidget {
               multiLineFormField('Describe your Event', descriptionController,
                   (String? value) {
                 return Validator.titleValidator(
-                    value!, 20, 50, 'Event Description');
+                    value!, 20, 200, 'Event Description');
               }, context),
               const SizedBox(
                 height: 20,
@@ -187,7 +187,7 @@ class EventDetailedForm extends StatelessWidget {
                       value: selectedTicketType,
                       onChanged: (String? newValue) {
                         selectedTicketType = newValue;
-                        
+
                         onTicketTypeChanged(selectedTicketType);
                         if (selectedTicketType == 'Free') {
                           priceController.text = '0.0';

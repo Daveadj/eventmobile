@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventmobile/models/event_models.dart';
+import 'package:eventmobile/models/events.model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 class LargeEventContainer extends StatelessWidget {
   const LargeEventContainer({super.key, required this.event});
-  final Event event;
+  final NewEvent event;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class LargeEventContainer extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
-              imageUrl: event.image,
+              imageUrl: event.photos[0].url,
               width: 250,
               height: 200,
               fit: BoxFit.cover,
@@ -70,7 +71,7 @@ class LargeEventContainer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    event.description,
+                    event.title,
                     style: const TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 13,
@@ -94,9 +95,9 @@ class LargeEventContainer extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      const Text(
-                        "Free",
-                        style: TextStyle(
+                      Text(
+                        event.tickets[0].ticketName,
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
