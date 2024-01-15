@@ -1,19 +1,26 @@
+import 'package:eventmobile/screens/home/provider/comment_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CommentScreen extends StatefulWidget {
-  const CommentScreen({super.key});
-
+class CommentScreen extends ConsumerStatefulWidget {
+  const CommentScreen(this.eventId, {super.key});
+  final int eventId;
   @override
-  State<CommentScreen> createState() => _CommentScreenState();
+  ConsumerState<CommentScreen> createState() => _CommentScreenState();
 }
 
-class _CommentScreenState extends State<CommentScreen> {
+class _CommentScreenState extends ConsumerState<CommentScreen> {
   final TextEditingController _commentController = TextEditingController();
+
+  @override
+  void initState() {
+    ref.read(signalRStateNotifier.notifier).startConnection(widget.eventId);
+    super.initState();
+  }
 
   @override
   void dispose() {
     _commentController.dispose();
-
     super.dispose();
   }
 
@@ -31,7 +38,6 @@ class _CommentScreenState extends State<CommentScreen> {
       body: 'Nice work!',
       time: '2 hours ago',
     ),
-
     // Add more comments as needed
   ];
 
@@ -52,27 +58,46 @@ class _CommentScreenState extends State<CommentScreen> {
   @override
   Widget build(BuildContext context) {
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.8,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: comments.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    child: CommentCard(
-                      comments: comments[index],
-                    ),
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 2,
+            child: StreamBuilder<List<dynamic>>(
+              stream: ref.read(signalRStateNotifier.notifier).stream,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                },
-              ),
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                } else {
+                  final comments = snapshot.data ?? [];
+                  return ListView.builder(
+                    itemCount: comments.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 8,
+                        ),
+                        child: CommentCard(
+                          comments: comments[index],
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
             ),
-            TextFormField(
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, keyboardSpace + 16),
+            child: TextFormField(
               controller: _commentController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
@@ -90,9 +115,9 @@ class _CommentScreenState extends State<CommentScreen> {
               onFieldSubmitted: (value) {
                 onsubmitted();
               },
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -4,7 +4,7 @@ class UserStorage {
   static const _storage = FlutterSecureStorage();
 
   static const _keyUserName = 'username';
-  static const _keyToken = 'token';
+  static const _keyToken = 'access_token';
   static const _keyUserid = 'userid';
   static const _keyThememode = 'thememode';
 

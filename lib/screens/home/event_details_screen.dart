@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventmobile/models/events.model.dart';
-import 'package:eventmobile/models/ticket_models.dart';
 
 import 'package:eventmobile/screens/home/comment_screen.dart';
 import 'package:eventmobile/screens/home/components/location_widget.dart';
 import 'package:eventmobile/screens/home/components/ticket_option_tile.dart';
 import 'package:eventmobile/screens/profile/other_users_profile_screen.dart';
-import 'package:eventmobile/screens/search/search_screen.dart';
 import 'package:eventmobile/screens/ticket/ticket_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -103,7 +101,7 @@ class _EventDetailsState extends State<EventDetails> {
                           isScrollControlled: true,
                           context: context,
                           builder: (context) {
-                            return const CommentScreen();
+                            return  CommentScreen(widget.event.id);
                           },
                         );
                       },
@@ -155,8 +153,8 @@ class _EventDetailsState extends State<EventDetails> {
                           ),
                         );
                       },
-                      child:Text(
-                       widget.event.organizerName ,
+                      child: Text(
+                        widget.event.organizerName,
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.bold,
@@ -177,7 +175,7 @@ class _EventDetailsState extends State<EventDetails> {
                   ],
                 ),
               ),
-               Padding(
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   widget.event.description,
@@ -218,7 +216,9 @@ class _EventDetailsState extends State<EventDetails> {
               Expanded(
                 child: TabBarView(
                   children: [
-                    LocationWidget(location: widget.event.location,),
+                    LocationWidget(
+                      location: widget.event.location,
+                    ),
                     ListView.builder(
                       itemCount: widget.event.tickets.length,
                       itemBuilder: (context, index) {

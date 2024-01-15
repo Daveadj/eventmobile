@@ -8,10 +8,10 @@ import 'package:http/http.dart';
 class ApiService {
   final String _baseUrl = 'https://eventapp-dev-ggxr.4.us-1.fl0.io/api';
 
-  static Future<Map<String, String>> headers(bool isMultipart) async {
+  static Future<Map<String, String>> headers() async {
     var token = await UserStorage.getToken();
     final Map<String, String> headers = {
-      'Content-Type': isMultipart ? 'multipart/form-data' : 'application/json',
+      'Content-Type':  'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
     };
@@ -34,7 +34,7 @@ class ApiService {
     final url = Uri.parse("$_baseUrl$endpoint");
     final response = await http.get(
       url,
-      headers: await headers(false),
+      headers: await headers(),
     );
     return response;
   }
@@ -47,7 +47,7 @@ class ApiService {
     final response = await http.post(
       url,
       body: jsonEncode(body),
-      headers: await headers(false),
+      headers: await headers(),
     );
     // print(response.body);
     return response;
