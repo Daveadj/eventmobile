@@ -1,13 +1,15 @@
+import 'package:eventmobile/models/comment_model.dart';
 import 'package:eventmobile/services/signalr_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignalRStateNotifier extends StateNotifier<List<dynamic>> {
+class SignalRStateNotifier extends StateNotifier<List<Comment>> {
   SignalRStateNotifier() : super([]);
 
   final signalRService = SignalRService();
 
   Future<void> startConnection(int eventId) async {
     await signalRService.startConnection(eventId);
+    signalRService.onLoadComments((comments) => state = comments!);
     signalRService.onReceiveComment((comment) => state = [...state, comment]);
   }
 
@@ -25,5 +27,5 @@ class SignalRStateNotifier extends StateNotifier<List<dynamic>> {
 }
 
 final signalRStateNotifier =
-    StateNotifierProvider<SignalRStateNotifier, List<dynamic>>(
+    StateNotifierProvider<SignalRStateNotifier, List<Comment>>(
         (ref) => SignalRStateNotifier());

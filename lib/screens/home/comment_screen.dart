@@ -1,3 +1,5 @@
+import 'package:eventmobile/logging.dart';
+import 'package:eventmobile/models/comment_model.dart';
 import 'package:eventmobile/screens/home/provider/comment_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +17,8 @@ class _CommentScreenState extends ConsumerState<CommentScreen> {
   @override
   void initState() {
     ref.read(signalRStateNotifier.notifier).startConnection(widget.eventId);
+    var todo = ref.read(signalRStateNotifier);
+    Log.i(todo.toString());
     super.initState();
   }
 
@@ -24,35 +28,12 @@ class _CommentScreenState extends ConsumerState<CommentScreen> {
     super.dispose();
   }
 
-  List<Comment> comments = [
-    Comment(
-      avatar: 'A',
-      name: 'John Doe',
-      body:
-          'Great post! keeep it up indeed whfi  wjfi  wufo  wjf owfjof dghhdggd name the besry sdgydyg friend i am never going to beat that baghd bat man flash',
-      time: '1 hour ago',
-    ),
-    Comment(
-      avatar: 'B',
-      name: 'Jane Smith',
-      body: 'Nice work!',
-      time: '2 hours ago',
-    ),
-    // Add more comments as needed
-  ];
 
   void onsubmitted() {
-    Comment comment = Comment(
-      avatar: 'z',
-      name: 'Dave david',
-      body: _commentController.text,
-      time: '1 hour ago',
-    );
+  
     _commentController.clear();
     FocusScope.of(context).unfocus();
-    setState(() {
-      comments.add(comment);
-    });
+    
   }
 
   @override
@@ -131,6 +112,28 @@ class CommentCard extends StatelessWidget {
 
   final Comment comments;
 
+  String formatDateTimeDifference(DateTime dateTime) {
+  Duration difference = DateTime.now().difference(dateTime);
+
+  if (difference.inDays > 365) {
+    int years = (difference.inDays / 365).floor();
+    return '$years ${years == 1 ? 'year' : 'years'} ago';
+  } else if (difference.inDays > 30) {
+    int months = (difference.inDays / 30).floor();
+    return '$months ${months == 1 ? 'month' : 'months'} ago';
+  } else if (difference.inDays > 0) {
+    return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
+  } else if (difference.inHours > 0) {
+    return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
+  } else if (difference.inMinutes > 0) {
+    return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago';
+  } else {
+    return 'just now';
+  }
+}
+
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -177,7 +180,7 @@ class CommentCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            comments.name,
+                            comments.authorUsername,
                             style: const TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 14,
@@ -186,7 +189,7 @@ class CommentCard extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            comments.time,
+                            formatDateTimeDifference(comments.date),
                             style: const TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 13,
@@ -220,16 +223,4 @@ class CommentCard extends StatelessWidget {
   }
 }
 
-class Comment {
-  final String avatar;
-  final String name;
-  final String body;
-  final String time;
 
-  Comment({
-    required this.avatar,
-    required this.name,
-    required this.body,
-    required this.time,
-  });
-}

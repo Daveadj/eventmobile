@@ -32,7 +32,6 @@ class HomeNotifier extends ChangeNotifier {
     try {
       Log.i(' getting all event');
       final response = await apiService.get('/Event/GetAllEvents');
-      Log.i(response.body);
 
       if (response.statusCode == 200) {
         List<dynamic> data = jsonDecode(response.body);
@@ -49,7 +48,7 @@ class HomeNotifier extends ChangeNotifier {
                 eventDate.day == currentDate.day;
           },
         ).toList();
-         Log.i(_recentEvents.length.toString());
+        Log.i(_recentEvents.length.toString());
         Log.i('got all event');
         notifyListeners();
       } else if (response.statusCode == 403 || response.statusCode == 401) {
