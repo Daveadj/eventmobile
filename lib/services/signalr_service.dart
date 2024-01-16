@@ -1,5 +1,7 @@
+import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/models/comment_model.dart';
 import 'package:eventmobile/services/storage.dart';
+import 'package:signalr_netcore/errors.dart';
 import 'package:signalr_netcore/signalr_client.dart';
 
 class SignalRService {
@@ -24,11 +26,15 @@ class SignalRService {
 
   void onLoadComments(Function(List<Comment>?) callback) {
     hubConnection.on("LoadComments", (List<dynamic>? comments) {
+      Log.i(comments.toString());
       if (comments != null) {
         List<Comment> commentList = comments
+            .expand((commentJsonList) => commentJsonList)
             .map((commentJson) => Comment.fromJson(commentJson))
             .toList();
+
         callback(commentList);
+        Log.i(commentList.length.toString());
       } else {
         callback(null);
       }
@@ -41,12 +47,24 @@ class SignalRService {
 
   void onReceiveComment(Function(Comment) callback) {
     hubConnection.on("ReceiveComment", (dynamic commentJson) {
+       Log.i(commentJson.toString());
       Comment comment = Comment.fromJson(commentJson);
       callback(comment);
     });
   }
 
   Future<void> sendComment(int eventId, String body) async {
-    await hubConnection.invoke("SendComment", args: [eventId, body]);
+    try {
+      await hubConnection.invoke("SendComment", args: [eventId, body]);
+    } catch (error) {
+      // Handle the error appropriately
+      print("Error sending comment: $error");
+      if (error is GeneralError) {
+        // Handle GeneralError type if needed
+      } else {
+        // Handle other error types or rethrow the error
+        rethrow;
+      }
+    }
   }
 }

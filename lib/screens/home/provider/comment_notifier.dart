@@ -1,3 +1,4 @@
+import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/models/comment_model.dart';
 import 'package:eventmobile/services/signalr_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

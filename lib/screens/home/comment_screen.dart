@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:eventmobile/logging.dart';
 import 'package:eventmobile/models/comment_model.dart';
 import 'package:eventmobile/screens/home/provider/comment_notifier.dart';
@@ -18,7 +20,8 @@ class _CommentScreenState extends ConsumerState<CommentScreen> {
   void initState() {
     ref.read(signalRStateNotifier.notifier).startConnection(widget.eventId);
     var todo = ref.read(signalRStateNotifier);
-    Log.i(todo.toString());
+
+    Log.i(todo.length.toString());
     super.initState();
   }
 
@@ -28,12 +31,13 @@ class _CommentScreenState extends ConsumerState<CommentScreen> {
     super.dispose();
   }
 
+  Future<void> onsubmitted() async {
+    await ref
+        .read(signalRStateNotifier.notifier)
+        .sendComment(widget.eventId, _commentController.text);
 
-  void onsubmitted() {
-  
     _commentController.clear();
     FocusScope.of(context).unfocus();
-    
   }
 
   @override
@@ -45,7 +49,7 @@ class _CommentScreenState extends ConsumerState<CommentScreen> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height / 2,
-            child: StreamBuilder<List<dynamic>>(
+            child: StreamBuilder<List<Comment>>(
               stream: ref.read(signalRStateNotifier.notifier).stream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -113,26 +117,24 @@ class CommentCard extends StatelessWidget {
   final Comment comments;
 
   String formatDateTimeDifference(DateTime dateTime) {
-  Duration difference = DateTime.now().difference(dateTime);
+    Duration difference = DateTime.now().difference(dateTime);
 
-  if (difference.inDays > 365) {
-    int years = (difference.inDays / 365).floor();
-    return '$years ${years == 1 ? 'year' : 'years'} ago';
-  } else if (difference.inDays > 30) {
-    int months = (difference.inDays / 30).floor();
-    return '$months ${months == 1 ? 'month' : 'months'} ago';
-  } else if (difference.inDays > 0) {
-    return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
-  } else if (difference.inHours > 0) {
-    return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
-  } else if (difference.inMinutes > 0) {
-    return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago';
-  } else {
-    return 'just now';
+    if (difference.inDays > 365) {
+      int years = (difference.inDays / 365).floor();
+      return '$years ${years == 1 ? 'year' : 'years'} ago';
+    } else if (difference.inDays > 30) {
+      int months = (difference.inDays / 30).floor();
+      return '$months ${months == 1 ? 'month' : 'months'} ago';
+    } else if (difference.inDays > 0) {
+      return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago';
+    } else {
+      return 'just now';
+    }
   }
-}
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -180,7 +182,7 @@ class CommentCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            comments.authorUsername,
+                            comments.id.toString(),
                             style: const TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 14,
@@ -188,9 +190,9 @@ class CommentCard extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          Text(
-                            formatDateTimeDifference(comments.date),
-                            style: const TextStyle(
+                          const Text(
+                            '',
+                            style: TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 13,
                             ),
@@ -222,5 +224,3 @@ class CommentCard extends StatelessWidget {
     );
   }
 }
-
-

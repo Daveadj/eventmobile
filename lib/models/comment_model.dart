@@ -8,37 +8,31 @@ class Comment {
   final int id;
   final String body;
   final String authorId;
-  final String authorUsername;
+
   final int eventId;
-  final String photoUrl;
-  final DateTime date;
+
+  final String dateTime;
 
   Comment(
       {required this.id,
       required this.body,
       required this.authorId,
       required this.eventId,
-      required this.authorUsername,
-      required this.photoUrl,
-      required this.date});
+      required this.dateTime});
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
         id: json["id"],
         body: json["body"],
         authorId: json["authorId"],
-        authorUsername: json["authorUsername"],
-        photoUrl: json["photoUrl"],
         eventId: json["eventId"],
-        date: json["date"],
+        dateTime: json["dateTime"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "body": body,
         "authorId": authorId,
-        "authorUsername":authorUsername,
         "eventId": eventId,
-        "photoUrl":photoUrl,
-        "date": date.toIso8601String()
+        "dateTime": dateTime
       };
 }
